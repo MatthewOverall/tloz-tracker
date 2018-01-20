@@ -1,0 +1,515 @@
+{
+  "00": {
+    "type": "",
+    "area": "death-mountain"
+  },
+  "01": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "02": {
+    "type": "",
+    "area": "death-mountain"
+  },
+  "03": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "04": {
+    "type": "cave",
+    "area": "death-mountain"
+  },
+  "05": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "06": {
+    "type": "",
+    "area": "death-mountain"
+  },
+  "07": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "08": {
+    "type": "",
+    "area": "death-mountain"
+    
+  },
+  "09": {
+    "type": "",
+    "area": "death-mountain"
+  },
+  "0A": {
+    "type": "cave",
+    "area": "lake"
+  },
+  "0B": {
+    "type": "cave",
+    "area": "lost-hills"
+  },
+  "0C": {
+    "type": "cave",
+    "area": "lost-hills"
+  },
+  "0D": {
+    "type": "bomb",
+    "area": "lost-hills"
+  },
+  "0E": {
+    "type": "cave",
+    "area": "coast"
+  },
+  "0F": {
+    "type": "cave",
+    "area": "coast"
+  },
+  "10": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "11": {
+    "type": "",
+    "area": "death-mountain"
+  },
+  "12": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "13": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "14": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "15": {
+    "type": "",
+    "area": "death-mountain"
+  },
+  "16": {
+    "type": "bomb",
+    "area": "death-mountain"
+  },
+  "17": {
+    "type": "",
+    "area": "river"
+  },
+  "18": {
+    "type": "",
+    "area": "river"
+  },
+  "19": {
+    "type": "",
+    "area": "river"
+  },
+  "1A": {
+    "type": "cave",
+    "area": "river"
+  },
+  "1B": {
+    "type": "",
+    "area": "lost-hills"
+  },
+  "1C": {
+    "type": "cave",
+    "area": "lost-hills"
+  },
+  "1D": {
+    "type": "bracelet",
+    "area": "lost-hills"
+  },
+  "1E": {
+    "type": "bomb",
+    "area": "coast"
+  },
+  "1F": {
+    "type": "cave",
+    "area": "coast"
+  },
+  "20": {
+    "type": "",
+    "area": "grave"
+  },
+  "21": {
+    "type": "cave",
+    "area": "grave"
+  },
+  "22": {
+    "type": "cave",
+    "area": "grave"
+  },
+  "23": {
+    "type": "bracelet",
+    "area": "grave"
+  },
+  "24": {
+    "type": "cave",
+    "area": "grave"
+  },
+  "25": {
+    "type": "cave",
+    "area": "grave"
+  },
+  "26": {
+    "type": "bomb",
+    "area": "lake"
+  },
+  "27": {
+    "type": "bomb",
+    "area": "river"
+  },
+  "28": {
+    "type": "tree",
+    "area": "desert"
+  },
+  "29": {
+    "type": "",
+    "area": "desert"
+  },
+  "2A": {
+    "type": "",
+    "area": "desert"
+  },
+  "2B": {
+    "type": "",
+    "area": "desert"
+  },
+  "2C": {
+    "type": "bomb",
+    "area": "desert"
+  },
+  "2D": {
+    "type": "bomb",
+    "area": "coast"
+  },
+  "2E": {
+    "type": "",
+    "area": "coast"
+  },
+  "2F": {
+    "type": "raft",
+    "area": "coast"
+  },
+  "30": {
+    "type": "",
+    "area": "grave"
+  },
+  "31": {
+    "type": "",
+    "area": "grave"
+  },
+  "32": {
+    "type": "cave",
+    "area": "grave"
+  },
+  "33": {
+    "type": "",
+    "area": "grave"
+  },
+  "34": {
+    "type": "bomb",
+    "area": "lake"
+  },
+  "35": {
+    "type": "",
+    "area": "lake"
+  },
+  "36": {
+    "type": "",
+    "area": "lake"
+  },
+  "37": {
+    "type": "cave",
+    "area": "lake"
+  },
+  "38": {
+    "type": "",
+    "area": "lake"
+  },
+  "39": {
+    "type": "",
+    "area": "lake"
+  },
+  "3A": {
+    "type": "",
+    "area": "desert"
+  },
+  "3B": {
+    "type": "",
+    "area": "desert"
+  },
+  "3C": {
+    "type": "cave",
+    "area": "forest"
+  },
+  "3D": {
+    "type": "cave",
+    "area": "forest"
+  },
+  "3E": {
+    "type": "",
+    "area": "coast"
+  },
+  "3F": {
+    "type": "",
+    "area": "coast"
+  },
+  "40": {
+    "type": "",
+    "area": "grave"
+  },
+  "41": {
+    "type": "",
+    "area": "grave"
+  },
+  "42": {
+    "type": "recorder",
+    "area": "lake"
+  },
+  "43": {
+    "type": "",
+    "area": "lake"
+  },
+  "44": {
+    "type": "cave",
+    "area": "lake"
+  },
+  "45": {
+    "type": "raft",
+    "area": "lake"
+  },
+  "46": {
+    "type": "tree",
+    "area": "lake"
+  },
+  "47": {
+    "type": "tree",
+    "area": "lake"
+  },
+  "48": {
+    "type": "tree",
+    "area": "lake"
+  },
+  "49": {
+    "type": "bracelet",
+    "area": "desert"
+  },
+  "4A": {
+    "type": "cave",
+    "area": "desert"
+  },
+  "4B": {
+    "type": "tree",
+    "area": "desert"
+  },
+  "4C": {
+    "type": "",
+    "area": "forest"
+  },
+  "4D": {
+    "type": "tree",
+    "area": "forest"
+  },
+  "4E": {
+    "type": "cave",
+    "area": "forest"
+  },
+  "4F": {
+    "type": "",
+    "area": "coast"
+  },
+  "50": {
+    "type": "",
+    "area": "grave"
+  },
+  "51": {
+    "type": "tree",
+    "area": "dead-woods"
+  },
+  "52": {
+    "type": "",
+    "area": "dead-woods"
+  },
+  "53": {
+    "type": "",
+    "area": "dead-woods"
+  },
+  "54": {
+    "type": "",
+    "area": "lake"
+  },
+  "55": {
+    "type": "",
+    "area": "lake"
+  },
+  "56": {
+    "type": "tree",
+    "area": "lake"
+  },
+  "57": {
+    "type": "",
+    "area": "start"
+  },
+  "58": {
+    "type": "",
+    "area": "start"
+  },
+  "59": {
+    "type": "",
+    "area": "lake"
+  },
+  "5A": {
+    "type": "",
+    "area": "lake"
+  },
+  "5B": {
+    "type": "tree",
+    "area": "forest"
+  },
+  "5C": {
+    "type": "",
+    "area": "forest"
+  },
+  "5D": {
+    "type": "",
+    "area": "forest"
+  },
+  "5E": {
+    "type": "cave",
+    "area": "forest"
+  },
+  "5F": {
+    "type": "",
+    "area": "coast"
+  },
+  "60": {
+    "type": "",
+    "area": "grave"
+  },
+  "61": {
+    "type": "",
+    "area": "dead-woods"
+  },
+  "62": {
+    "type": "tree",
+    "area": "dead-woods"
+  },
+  "63": {
+    "type": "tree",
+    "area": "dead-woods"
+  },
+  "64": {
+    "type": "cave",
+    "area": "dead-woods"
+  },
+  "65": {
+    "type": "",
+    "area": "river"
+  },
+  "66": {
+    "type": "cave",
+    "area": "start"
+  },
+  "67": {
+    "type": "bomb",
+    "area": "start"
+  },
+  "68": {
+    "type": "tree",
+    "area": "start"
+  },
+  "69": {
+    "type": "",
+    "area": "lake"
+  },
+  "6A": {
+    "type": "tree",
+    "area": "lake"
+  },
+  "6B": {
+    "type": "tree",
+    "area": "forest"
+  },
+  "6C": {
+    "type": "",
+    "area": "forest"
+  },
+  "6D": {
+    "type": "tree",
+    "area": "forest"
+  },
+  "6E": {
+    "type": "",
+    "area": "forest"
+  },
+  "6F": {
+    "type": "cave",
+    "area": "coast"
+  },
+  "70": {
+    "type": "cave",
+    "area": "dead-woods"
+  },
+  "71": {
+    "type": "bomb",
+    "area": "dead-woods"
+  },
+  "72": {
+    "type": "",
+    "area": "dead-woods"
+  },
+  "73": {
+    "type": "",
+    "area": "dead-woods"
+  },
+  "74": {
+    "type": "cave",
+    "area": "dead-woods"
+  },
+  "75": {
+    "type": "cave",
+    "area": "river"
+  },
+  "76": {
+    "type": "bomb",
+    "area": "start"
+  },
+  "77": {
+    "type": "cave",
+    "area": "start"
+  },
+  "78": {
+    "type": "tree",
+    "area": "start"
+  },
+  "79": {
+    "type": "bracelet",
+    "area": "start"
+  },
+  "7A": {
+    "type": "",
+    "area": "start"
+  },
+  "7B": {
+    "type": "bomb",
+    "area": "coast"
+  },
+  "7C": {
+    "type": "bomb",
+    "area": "coast"
+  },
+  "7D": {
+    "type": "bomb",
+    "area": "coast"
+  },
+  "7E": {
+    "type": "",
+    "area": "coast"
+  },
+  "7F": {
+    "type": "",
+    "area": "coast"
+  }
+}

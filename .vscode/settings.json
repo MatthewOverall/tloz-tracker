@@ -1,0 +1,20 @@
+{
+  "files.exclude": {
+      "node_modules": true,
+      "build": true
+  },
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "eslint.validate": [
+      "javascript",
+      {
+          "language": "vue",
+          "autoFix": true
+      }
+  ],
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "vetur.format.defaultFormatter.html": "js-beautify-html"
+  
+}

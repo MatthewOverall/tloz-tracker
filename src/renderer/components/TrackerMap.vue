@@ -6,14 +6,16 @@
           v-bind:id="row+col" 
           v-for="col in cols" 
           v-bind:class="{selected:selectedCell == row+col}"
-          @click="selectedCell = row+col"
-        ) 
+          v-on:mouseover="selectedCell = row+col"
+          @click="cycleMarker(tiles[row+col])"
+        )
         img(v-bind:src="`./static/map/${row+col}.png`")
         .cell-cover(v-bind:class="tiles[row+col].area")
-        .icon(v-if="tiles[row+col]" v-show="tiles[row+col].type" :class="tiles[row+col].type") 
+        tile-marker(:tile-id="row+col")
   .toolbar.flex
-    div
+    div.flex.column
       .toggle(@click="showArea = !showArea" :class="{on:showArea}") AREA
+      router-link.toggle.mt-5(to="input") CONFIG
     .level(v-for="l in levels")
       .triforce-heart.compact
         .triangle(@click="l.triforceCollected = !l.triforceCollected" :class="{on:l.triforceCollected}")
@@ -39,14 +41,17 @@
 <script>
 import { mapState } from 'vuex'
 import { createWriteStream } from 'fs';
+import TileMarker from './TileMarker'
 
 export default {
   name: 'TrackerMap',
+  components: { TileMarker },
   computed: mapState({
-    tiles: state => state.tiles,
+    tiles: state => state.tracker.tiles,
     levels: state => state.tracker.levels,
     items: state => state.items,
-    oi: state => state.tracker.overworldItems
+    oi: state => state.tracker.overworldItems,
+    markers: state => state.markers
   }),
   data () {
     return {
@@ -56,19 +61,31 @@ export default {
       showArea: false
     }
   },
+  mounted () {
+  },
   methods: {
     cycleItem (item) {
       let nextId = item.id + 1
-      if(nextId >= this.items.length){
+      if (nextId >= this.items.length) {
         nextId = 0
       }
       item.id = nextId
+    },
+    cycleMarker (tile) {
+      let keys = Object.keys(this.markers)
+      let nextIndex = keys.indexOf(tile.marker) + 1
+      if (nextIndex >= keys.length) nextIndex = 0
+      tile.marker = keys[nextIndex]
+    },
+    handleInput (inputState) {
+      console.log(inputState)
     }
   }
 }
 </script>
 
 <style lang="sass">
+
   .flex
     display: flex
     &.column
@@ -122,7 +139,14 @@ export default {
       left: 0
       right: 0
       bottom: 0
-
+      z-index: 2
+    .marker
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      z-index: 1
   @keyframes glow 
       0% 
         border-color: magenta
@@ -134,30 +158,6 @@ export default {
       100% 
         border-color: white
         box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 2px 0 #000;
-  .icon
-    height: 60%
-    width: 40%
-    margin: auto
-    border: 2px solid black
-    box-shadow: 2px 2px 4px
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    z-index: 1
-    &.raft
-     background-color: red
-    &.recorder
-      background-color: red
-    &.bracelet
-      background-color: magenta
-    &.cave
-      background-color: yellow
-    &.tree
-      background-color: lime
-    &.bomb
-      background-color: #44c9f1
 
   .toggle
     border: 3px solid gray
@@ -168,7 +168,6 @@ export default {
     &.on
       color: white
       border: 3px solid white
-
   .level
     display: flex
     flex-direction: column

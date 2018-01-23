@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import tiles from '../../../static/tiles.json'
-
+import markers from '../../../static/markers.json'
 Vue.use(Vuex)
 
 const state = {
-  tiles: tiles,
-  items: ["", "bow", "boomerang", "blue-boomerang", "raft", "stepladder", "recorder", "wand", "red-candle", "red-ring", "book", "magic-key", "white-sword", "heart-container", "power-bracelet"],
+  rows: '01234567',
+  cols: '0123456789ABCDEF',
+  items: ['', 'bow', 'boomerang', 'blue-boomerang', 'raft', 'stepladder', 'recorder', 'wand', 'red-candle', 'red-ring', 'book', 'magic-key', 'white-sword', 'heart-container', 'power-bracelet'],
+  markers: markers,
   tracker: {
+    tiles: tiles,
     overworldItems: {
       whiteSword: { id: 0 },
       coast: { id: 0 },
@@ -59,12 +62,6 @@ const state = {
 }
 
 const mutations = {
-  DECREMENT_MAIN_COUNTER (state) {
-    state.main--
-  },
-  INCREMENT_MAIN_COUNTER (state) {
-    state.main++
-  }
 }
 
 const actions = {
@@ -76,6 +73,13 @@ const actions = {
 
 const getters = {
 
+}
+
+
+for (let r = 0; r < state.rows.length; r++) {
+  for (let c = 0; c < state.cols.length; c++) {
+    state.tracker.tiles[state.rows[r] + state.cols[c]].marker = 'default'
+  }
 }
 
 export default new Vuex.Store({

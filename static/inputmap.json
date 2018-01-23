@@ -1,0 +1,11 @@
+{
+  "up":[],
+  "down":[],
+  "left":[],
+  "right":[],
+  "cycleLevel":[],
+  "cycleShop":[],
+  "cycleMisc":[],
+  "cycleWarp":[],
+  "clearMarker":[]
+}

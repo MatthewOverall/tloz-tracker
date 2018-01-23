@@ -9,6 +9,10 @@ export default new Router({
       path: '/',
       name: 'TrackerMap',
       component: require('@/components/TrackerMap').default
+    }, {
+      path: '/input',
+      name: 'InputMap',
+      component: require('@/components/InputMap').default
     },
     {
       path: '*',

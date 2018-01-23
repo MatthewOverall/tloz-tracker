@@ -1,34 +1,51 @@
 import gamepad from './gamepad'
+import { log } from 'util';
+const listeners = [];
+
 const input = {
-  listeners: [],
-  state: {},
+  keys: {
+  },
+  getPressedKeys () {
+    let pressed = []
+    for (const k in this.keys) {
+      if (this.keys.hasOwnProperty(k)) {
+        pressed.push(this.keys[k])
+      }
+    }
+  },
   isKeyDown (code) {
+    return this.keys[code] && this.keys[code].pressed
   },
   onInput (handler) {
-    this.listeners.push(handler)
-  },
-  emitInput () {
-    this.listeners.forEach(l => {
-      l(this.state)
-    });
+    listeners.push(handler)
   }
+}
+
+function emitInput (e) {
+  listeners.forEach(l => {
+    l(e, input)
+  });
 }
 
 window.onkeydown = (e) => {
-  if (!input.state[e.key]) {
-    input.state[e.key] = {}
+  console.log(e)
+  if (!input.keys[e.code]) {
+    input.keys[e.code] = {}
   }
-  if (!input.state[e.key].pressed) {
-    input.state[e.key].pressed = true
+  if (!input.keys[e.code].pressed) {
+    input.keys[e.code].keyCode = e.keyCode
+    input.keys[e.code].key = e.key
+    input.keys[e.code].code = e.code
+    input.keys[e.code].pressed = true
   }
-  input.emitInput()
+  emitInput(e)
 }
 
 window.onkeyup = (e) => {
-  let ks = input.state[e.key]
-  if (!ks) ks = input.state[e.key] = {}
+  let ks = input.keys[e.code]
+  if (!ks) ks = input.keys[e.code] = {}
   ks.pressed = false
-  input.emitInput()
+  emitInput(e)
 }
 
 export default input

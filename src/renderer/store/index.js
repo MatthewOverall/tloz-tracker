@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import tiles from '../../../static/tiles.json'
 import markers from '../../../static/markers.json'
+import inputmap from '../../../static/inputmap.json'
+import createPersistedState from 'vuex-persistedstate'
+
 Vue.use(Vuex)
 
 const state = {
@@ -9,6 +12,7 @@ const state = {
   cols: '0123456789ABCDEF',
   items: ['', 'bow', 'boomerang', 'blue-boomerang', 'raft', 'stepladder', 'recorder', 'wand', 'red-candle', 'red-ring', 'book', 'magic-key', 'white-sword', 'heart-container', 'power-bracelet'],
   markers: markers,
+  inputmap: inputmap,
   tracker: {
     tiles: tiles,
     overworldItems: {
@@ -62,13 +66,12 @@ const state = {
 }
 
 const mutations = {
+  ASSIGN_INPUT (state, d) {
+    state.inputmap[d.name][d.index] = d.input
+  }
 }
 
 const actions = {
-  someAsyncTask ({ commit }) {
-    // do something async
-    commit('INCREMENT_MAIN_COUNTER')
-  }
 }
 
 const getters = {
@@ -86,5 +89,6 @@ export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  plugins: [createPersistedState()]
 })

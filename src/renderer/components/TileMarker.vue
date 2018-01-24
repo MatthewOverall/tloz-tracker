@@ -48,7 +48,10 @@ export default {
     border: 2px solid black
     box-shadow: 2px 2px 4px black
     &.clear
-      display: none
+      height: 60%
+      width: 40%
+      background-color: gray
+      opacity: .4
     .marker-text
       color: white
       font-size: 4vw

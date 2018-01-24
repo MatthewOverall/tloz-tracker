@@ -35,43 +35,43 @@
     "group": "dungeon",
     "text": "L9"
   },
-  "arrow": {
+  "shop-arrow": {
     "group": "shop",
     "text": "A"
   },
-  "bomb": {
+  "shop-bomb": {
     "group": "shop",
     "text": "B"
   },
-  "key": {
+  "shop-key": {
     "group": "shop",
     "text": "K"
   },
-  "food": {
+  "shop-food": {
     "group": "shop",
     "text": "F"
   },
-  "candle": {
+  "shop-candle": {
     "group": "shop",
     "text": "C"
   },
-  "ring": {
+  "shop-ring": {
     "group": "shop",
     "text": "R"
   },
-  "potion": {
+  "misc-potion": {
     "group": "misc",
     "text": "P"
   },
-  "gamble": {
+  "misc-gamble": {
     "group": "misc",
     "text": "$?"
   },
-  "hints": {
+  "misc-hints": {
     "group": "misc",
     "text": "???"
   },
-  "sword": {
+  "misc-sword": {
     "group": "misc",
     "text": "S"
   },
@@ -91,7 +91,7 @@
     "group": "warp",
     "text": "W4"
   },
-  "clear": {
+  "clear-marker": {
     "group": "clear",
     "text": ""
   },

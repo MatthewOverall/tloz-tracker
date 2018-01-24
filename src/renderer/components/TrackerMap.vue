@@ -6,7 +6,6 @@
           v-bind:id="row+col" 
           v-for="col in cols" 
           v-bind:class="{selected:selectedCell == row+col}"
-          v-on:mouseover="selectedCell = row+col"
           @click="cycleMarker(tiles[row+col])"
         )
         img(v-bind:src="`./static/map/${row+col}.png`")
@@ -16,6 +15,7 @@
     div.flex.column
       .toggle(@click="showArea = !showArea" :class="{on:showArea}") AREA
       router-link.toggle.mt-5(to="input") CONFIG
+      |{{selectedCell}}
     .level(v-for="l in levels")
       .triforce-heart.compact
         .triangle(@click="l.triforceCollected = !l.triforceCollected" :class="{on:l.triforceCollected}")
@@ -40,19 +40,25 @@
 
 <script>
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import { createWriteStream } from 'fs';
 import TileMarker from './TileMarker'
 
 export default {
   name: 'TrackerMap',
   components: { TileMarker },
-  computed: mapState({
-    tiles: state => state.tracker.tiles,
-    levels: state => state.tracker.levels,
-    items: state => state.items,
-    oi: state => state.tracker.overworldItems,
-    markers: state => state.markers
-  }),
+  computed: {
+    ...mapState({
+      tiles: state => state.tracker.tiles,
+      levels: state => state.tracker.levels,
+      items: state => state.items,
+      oi: state => state.tracker.overworldItems,
+      markers: state => state.markers,
+      inputmap: state => state.inputmap
+    }),
+    ...mapGetters(['getMarkersByGroup']),
+    selectedTile () { return this.tiles[this.selectedCell] }
+  },
   data () {
     return {
       rows: "01234567",
@@ -77,8 +83,70 @@ export default {
       if (nextIndex >= keys.length) nextIndex = 0
       tile.marker = keys[nextIndex]
     },
-    handleInput (inputState) {
-      console.log(inputState)
+    cycleLevel (amount) {
+
+      let markers = Object.keys(this.getMarkersByGroup('dungeon'))
+      let next = markers.indexOf(this.selectedTile.marker) + 1
+      if (next >= markers.length) next = 0
+      this.selectedTile.marker = markers[next]
+    },
+    cycleGroup (group) {
+      let markers = Object.keys(this.getMarkersByGroup(group))
+      let next = markers.indexOf(this.selectedTile.marker) + 1
+      if (next >= markers.length) next = 0
+      this.selectedTile.marker = markers[next]
+    },
+    clearMarker () {
+      if (this.selectedTile.marker === 'clear-marker') {
+        this.selectedTile.marker = 'default'
+      } else {
+        this.selectedTile.marker = 'clear-marker'
+      }
+    },
+    handleInput (e, input) {
+      let activeCommands = []
+      for (const key in this.inputmap) {
+        if (this.inputmap[key].some(x => input.keys[x] && input.keys[x].pressed)) {
+          activeCommands.push(key)
+        }
+      }
+      activeCommands.forEach(c => {
+        if (c === 'selector-up') {
+          let nextCell = (parseInt(this.selectedCell, 16) - 16)
+          if (nextCell < 0) nextCell += 16 * this.rows.length
+          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
+        }
+        if (c === 'selector-down') {
+          let nextCell = (parseInt(this.selectedCell, 16) + 16)
+          if (nextCell >= 16 * 8) nextCell -= 16 * this.rows.length
+          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
+        }
+        if (c === 'selector-right') {
+          let nextCell = (parseInt(this.selectedCell, 16) + 1)
+          if (nextCell >= 16 * 8) nextCell = 0
+          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
+        }
+        if (c === 'selector-left') {
+          let nextCell = (parseInt(this.selectedCell, 16) - 1)
+          if (nextCell < 0) nextCell = 8 * 16 - 1
+          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
+        }
+        if (c === 'cycle-level') {
+          this.cycleLevel()
+        }
+        if (c === 'cycle-shop') {
+          this.cycleGroup('shop')
+        }
+        if (c === 'cycle-misc') {
+          this.cycleGroup('misc')
+        }
+        if (c === 'cycle-warp') {
+          this.cycleGroup('warp')
+        }
+        if (c === 'clear-marker') {
+          this.clearMarker()
+        }
+      })
     }
   }
 }
@@ -131,7 +199,7 @@ export default {
         animation: glow 400ms ease-out infinite alternate
     &:hover
       .cell-cover
-        border: 4px solid white
+        border: 1px solid white
         background-color: rgba(255,255,255,.3)
     .cell-cover
       position: absolute

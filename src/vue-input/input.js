@@ -1,8 +1,11 @@
 import gamepad from './gamepad'
 import { log } from 'util';
-const listeners = [];
+const listeners = []
+
 
 const input = {
+  frame: 0,
+  buffer: [],
   keys: {
   },
   getPressedKeys () {
@@ -13,7 +16,12 @@ const input = {
       }
     }
   },
+  //returns true the first frame the input is pressed
   isKeyDown (code) {
+    return this.keys[code] && this.keys[code].pressedThisFrame
+  },
+  //returns true whenever the key is held down
+  isKeyPressed (code) {
     return this.keys[code] && this.keys[code].pressed
   },
   onInput (handler) {
@@ -27,8 +35,14 @@ function emitInput (e) {
   });
 }
 
+window.addEventListener('ongamepadinput', (e) => {
+  let d = e.detail
+  d.preventDefault = () => { }
+  input.keys[d.code] = d
+  emitInput(d)
+})
+
 window.onkeydown = (e) => {
-  console.log(e)
   if (!input.keys[e.code]) {
     input.keys[e.code] = {}
   }
@@ -37,6 +51,9 @@ window.onkeydown = (e) => {
     input.keys[e.code].key = e.key
     input.keys[e.code].code = e.code
     input.keys[e.code].pressed = true
+    input.keys[e.code].pressedThisFrame = true
+  } else {
+    input.keys[e.code].pressedThisFrame = false
   }
   emitInput(e)
 }
@@ -45,6 +62,7 @@ window.onkeyup = (e) => {
   let ks = input.keys[e.code]
   if (!ks) ks = input.keys[e.code] = {}
   ks.pressed = false
+  ks.releasedThisFrame = true
   emitInput(e)
 }
 

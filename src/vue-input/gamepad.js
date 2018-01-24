@@ -1,34 +1,80 @@
-const controllers = []
+const gamepads = []
+const codeMap = {
+  "B0": "A",
+  "B1": "B",
+  "B2": "X",
+  "B3": "Y",
+  "B4": "LB",
+  "B5": "RB",
+  "B6": "LT",
+  "B7": "RT",
+  "B8": "Select",
+  "B9": "Start",
+  "B10": "LStick",
+  "B11": "RStick",
+  "B12": "DUp",
+  "B13": "DDown",
+  "B14": "DLeft",
+  "B15": "DRight"
+}
+
+const state = {
+  controllers: []
+}
 
 function addgamepad (gamepad) {
-  console.log('gamepad added', gamepad)
-  controllers[gamepad.index] = gamepad
+  gamepads[gamepad.index] = gamepad
 }
 
 function removegamepad (gamepad) {
-  delete controllers[gamepad.index]
+  delete gamepads[gamepad.index]
 }
 
 function updateStatus () {
   scangamepads()
-  for (let j in controllers) {
-    let controller = controllers[j]
-    for (let i = 0; i < controller.buttons.length; i++) {
-      var val = controller.buttons[i]
-      var pressed = val == 1.0
-      if (typeof (val) == 'object') {
-        pressed = val.pressed
-        val = val.value
+  let events = []
+
+  gamepads.forEach(g => {
+    let gs = state.controllers[g.index] = (state.controllers[g.index] || { buttons: {} })
+
+    // remap all the buttons
+    let buttons = g.buttons.map((b, i) => {
+      return {
+        id: `C${g.index}B${i}`,
+        pressed: b.pressed,
+        value: b.value
       }
-      var pct = Math.round(val * 100) + '%'
-      if (pressed) {
-        console.log(`button ${i} pressed`)
+    })
+    // remap each axis to a button press
+    g.axes.forEach((a, i) => {
+      buttons.push({
+        id: `C${g.index}A${i}P`,
+        pressed: a >= .4, //.6 is dead zone move to var
+        value: a
+      })
+      buttons.push({
+        id: `C${g.index}A${i}N`,
+        pressed: a <= -.4,
+        value: a
+      })
+    })
+    buttons.forEach(b => {
+      let pbs = gs.buttons[b.id] = (gs.buttons[b.id] || { pressed: false })
+      if (pbs.pressed != b.pressed) {
+        let e = {
+          gamepad: g,
+          pressed: b.pressed,
+          value: b.value,
+          code: b.id,
+          type: b.pressed ? 'keydown' : 'keyup'
+        }
+        events.push(e)
       }
-    }
-    for (let i = 0; i < controller.axes.length; i++) {
-      // console.log(controller.axes[i])
-    }
-  }
+      gs.buttons[b.id] = b
+    })
+
+  })
+  events.forEach(e => window.dispatchEvent(new CustomEvent('ongamepadinput', { detail: e })))
   requestAnimationFrame(updateStatus)
 }
 requestAnimationFrame(updateStatus)
@@ -37,8 +83,8 @@ function scangamepads () {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
   for (var i = 0; i < gamepads.length; i++) {
     if (gamepads[i]) {
-      if (gamepads[i].index in controllers) {
-        controllers[gamepads[i].index] = gamepads[i];
+      if (gamepads[i].index in gamepads) {
+        gamepads[gamepads[i].index] = gamepads[i];
       } else {
         addgamepad(gamepads[i]);
       }

@@ -75,7 +75,17 @@ const actions = {
 }
 
 const getters = {
-
+  getMarkersByGroup: state => (group) => {
+    let grouped = {}
+    for (const key in state.markers) {
+      if (state.markers.hasOwnProperty(key)) {
+        if (state.markers[key].group === group) {
+          grouped[key] = state.markers[key]
+        }
+      }
+    }
+    return grouped
+  }
 }
 
 

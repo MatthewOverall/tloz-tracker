@@ -1,8 +1,18 @@
 {
-  "selector-up": ["ArrowUp","",""],
-  "selector-down": ["ArrowDown"],
-  "selector-left": ["ArrowLeft"],
-  "selector-right": ["ArrowRight"],
+  "selector-up": [
+    "ArrowUp",
+    "",
+    ""
+  ],
+  "selector-down": [
+    "ArrowDown"
+  ],
+  "selector-left": [
+    "ArrowLeft"
+  ],
+  "selector-right": [
+    "ArrowRight"
+  ],
   "cycle-level": [],
   "cycle-shop": [],
   "cycle-misc": [],
@@ -30,5 +40,10 @@
   "warp-2": [],
   "warp-3": [],
   "warp-4": [],
-  "clear-marker": []
+  "clear-marker": [],
+  "cycle-wall-up": [],
+  "cycle-wall-down": [],
+  "cycle-wall-left": [],
+  "cycle-wall-right": [],
+  "cycle-room": []
 }

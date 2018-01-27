@@ -5,12 +5,15 @@ import markers from '../../../static/markers.json'
 import inputmap from '../../../static/inputmap.json'
 import createPersistedState from 'vuex-persistedstate'
 
+import gameState from '../../Game'
 Vue.use(Vuex)
 
 const state = {
   rows: '01234567',
   cols: '0123456789ABCDEF',
   items: ['', 'bow', 'boomerang', 'blue-boomerang', 'raft', 'stepladder', 'recorder', 'wand', 'red-candle', 'red-ring', 'book', 'magic-key', 'white-sword', 'heart-container', 'power-bracelet'],
+  wallMarkers: ['','open','blocked'],
+  roomMarkers: ['','checked','interest'],
   markers: markers,
   inputmap: inputmap,
   tracker: {
@@ -85,6 +88,15 @@ const getters = {
       }
     }
     return grouped
+  },
+  isBindingPressed: state => (binding) => {
+    return state.inputmap[binding] && state.inputmap[binding].some(x => gameState.input.isKeyPressed(x))
+  },
+  isBindingDown: state => (binding) => {
+    return state.inputmap[binding] && state.inputmap[binding].some(x => gameState.input.isKeyDown(x))
+  },
+  isBindingUp: state => (binding) => {
+    return state.inputmap[binding] && state.inputmap[binding].some(x => gameState.input.isKeyUp(x))
   }
 }
 

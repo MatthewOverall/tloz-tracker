@@ -1,102 +1,119 @@
 {
-  "level-1": {
-    "group": "dungeon",
-    "text": "L1"
+  "overworld": {
+    "level-1": {
+      "group": "dungeon",
+      "text": "L1"
+    },
+    "level-2": {
+      "group": "dungeon",
+      "text": "L2"
+    },
+    "level-3": {
+      "group": "dungeon",
+      "text": "L3"
+    },
+    "level-4": {
+      "group": "dungeon",
+      "text": "L4"
+    },
+    "level-5": {
+      "group": "dungeon",
+      "text": "L5"
+    },
+    "level-6": {
+      "group": "dungeon",
+      "text": "L6"
+    },
+    "level-7": {
+      "group": "dungeon",
+      "text": "L7"
+    },
+    "level-8": {
+      "group": "dungeon",
+      "text": "L8"
+    },
+    "level-9": {
+      "group": "dungeon",
+      "text": "L9"
+    },
+    "shop-arrow": {
+      "group": "shop",
+      "text": "A"
+    },
+    "shop-bomb": {
+      "group": "shop",
+      "text": "B"
+    },
+    "shop-key": {
+      "group": "shop",
+      "text": "K"
+    },
+    "shop-food": {
+      "group": "shop",
+      "text": "F"
+    },
+    "shop-candle": {
+      "group": "shop",
+      "text": "C"
+    },
+    "shop-ring": {
+      "group": "shop",
+      "text": "R"
+    },
+    "misc-potion": {
+      "group": "misc",
+      "text": "P"
+    },
+    "misc-gamble": {
+      "group": "misc",
+      "text": "$?"
+    },
+    "misc-hints": {
+      "group": "misc",
+      "text": "???"
+    },
+    "misc-sword": {
+      "group": "misc",
+      "text": "S"
+    },
+    "warp-1": {
+      "group": "warp",
+      "text": "W1"
+    },
+    "warp-2": {
+      "group": "warp",
+      "text": "W2"
+    },
+    "warp-3": {
+      "group": "warp",
+      "text": "W3"
+    },
+    "warp-4": {
+      "group": "warp",
+      "text": "W4"
+    },
+    "clear-marker": {
+      "group": "clear",
+      "text": ""
+    },
+    "default": {
+      "group": "clear",
+      "text": ""
+    }
   },
-  "level-2": {
-    "group": "dungeon",
-    "text": "L2"
-  },
-  "level-3": {
-    "group": "dungeon",
-    "text": "L3"
-  },
-  "level-4": {
-    "group": "dungeon",
-    "text": "L4"
-  },
-  "level-5": {
-    "group": "dungeon",
-    "text": "L5"
-  },
-  "level-6": {
-    "group": "dungeon",
-    "text": "L6"
-  },
-  "level-7": {
-    "group": "dungeon",
-    "text": "L7"
-  },
-  "level-8": {
-    "group": "dungeon",
-    "text": "L8"
-  },
-  "level-9": {
-    "group": "dungeon",
-    "text": "L9"
-  },
-  "shop-arrow": {
-    "group": "shop",
-    "text": "A"
-  },
-  "shop-bomb": {
-    "group": "shop",
-    "text": "B"
-  },
-  "shop-key": {
-    "group": "shop",
-    "text": "K"
-  },
-  "shop-food": {
-    "group": "shop",
-    "text": "F"
-  },
-  "shop-candle": {
-    "group": "shop",
-    "text": "C"
-  },
-  "shop-ring": {
-    "group": "shop",
-    "text": "R"
-  },
-  "misc-potion": {
-    "group": "misc",
-    "text": "P"
-  },
-  "misc-gamble": {
-    "group": "misc",
-    "text": "$?"
-  },
-  "misc-hints": {
-    "group": "misc",
-    "text": "???"
-  },
-  "misc-sword": {
-    "group": "misc",
-    "text": "S"
-  },
-  "warp-1": {
-    "group": "warp",
-    "text": "W1"
-  },
-  "warp-2": {
-    "group": "warp",
-    "text": "W2"
-  },
-  "warp-3": {
-    "group": "warp",
-    "text": "W3"
-  },
-  "warp-4": {
-    "group": "warp",
-    "text": "W4"
-  },
-  "clear-marker": {
-    "group": "clear",
-    "text": ""
-  },
-  "default": {
-    "group": "clear",
-    "text": ""
+  "underworld": {
+    "open": {
+      "group": "wall"
+    },
+    "blocked": {
+      "group": "wall"
+    },
+    "checked": {
+      "group": "room"
+    },
+    "interest": {
+      "group": "room",
+      "text": "?"
+    }
   }
 }

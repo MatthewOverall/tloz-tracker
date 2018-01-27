@@ -1,4 +1,4 @@
-const gamepads = []
+
 const codeMap = {
   "B0": "A",
   "B1": "B",
@@ -19,28 +19,27 @@ const codeMap = {
 }
 
 const state = {
-  controllers: []
+  frame: 0,
+  gamepads: [],
+  keys: {}
 }
 
 function addgamepad (gamepad) {
-  gamepads[gamepad.index] = gamepad
+  state.gamepads[gamepad.index] = gamepad
 }
 
 function removegamepad (gamepad) {
-  delete gamepads[gamepad.index]
+  delete state.gamepads[gamepad.index]
 }
 
-function updateStatus () {
+function updateState (frame) {
   scangamepads()
-  let events = []
-
-  gamepads.forEach(g => {
-    let gs = state.controllers[g.index] = (state.controllers[g.index] || { buttons: {} })
-
+  state.frame = frame
+  state.gamepads.forEach(g => {
     // remap all the buttons
     let buttons = g.buttons.map((b, i) => {
       return {
-        id: `C${g.index}B${i}`,
+        code: `C${g.index}B${i}`,
         pressed: b.pressed,
         value: b.value
       }
@@ -48,36 +47,38 @@ function updateStatus () {
     // remap each axis to a button press
     g.axes.forEach((a, i) => {
       buttons.push({
-        id: `C${g.index}A${i}P`,
-        pressed: a >= .4, //.6 is dead zone move to var
+        code: `C${g.index}A${i}P`,
+        pressed: a >= .5, //todo dead zone move to var
         value: a
       })
       buttons.push({
-        id: `C${g.index}A${i}N`,
-        pressed: a <= -.4,
+        code: `C${g.index}A${i}N`,
+        pressed: a <= -.5,
         value: a
       })
     })
-    buttons.forEach(b => {
-      let pbs = gs.buttons[b.id] = (gs.buttons[b.id] || { pressed: false })
-      if (pbs.pressed != b.pressed) {
-        let e = {
-          gamepad: g,
-          pressed: b.pressed,
-          value: b.value,
-          code: b.id,
-          type: b.pressed ? 'keydown' : 'keyup'
-        }
-        events.push(e)
-      }
-      gs.buttons[b.id] = b
-    })
 
+    // update the current state
+    buttons.forEach(b => {
+      let pbs = state.keys[b.code] = (state.keys[b.code] || {
+        pressed: false,
+        code: b.code,
+        value: 0
+      })
+      if (!pbs.pressed && b.pressed) {
+        pbs.frameDown = frame
+        console.log(frame)
+      }
+      if (pbs.pressed && !b.pressed) {
+        pbs.frameUp = frame
+        console.log(frame)
+      }
+      pbs.pressed = b.pressed
+      pbs.value = b.value
+    })
   })
-  events.forEach(e => window.dispatchEvent(new CustomEvent('ongamepadinput', { detail: e })))
-  requestAnimationFrame(updateStatus)
+
 }
-requestAnimationFrame(updateStatus)
 
 function scangamepads () {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
@@ -94,3 +95,8 @@ function scangamepads () {
 
 window.addEventListener("gamepadconnected", e => addgamepad(e.gamepad));
 window.addEventListener("gamepaddisconnected", e => removegamepad(e.gamepad));
+
+export default {
+  state,
+  updateState
+}

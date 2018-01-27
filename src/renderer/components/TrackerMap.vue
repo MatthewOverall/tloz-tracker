@@ -6,6 +6,7 @@
           v-bind:id="row+col" 
           v-for="col in cols" 
           v-bind:class="{selected:selectedCell == row+col}"
+          v-on:mouseenter = "selectedCell = row+col"
           @click="cycleMarker(tiles[row+col])"
         )
         img(v-bind:src="`./static/map/${row+col}.png`")
@@ -15,7 +16,7 @@
     div.flex.column
       .toggle(@click="showArea = !showArea" :class="{on:showArea}") AREA
       router-link.toggle.mt-5(to="input") CONFIG
-      |{{selectedCell}}
+      router-link.toggle.mt-5(to="dungeon") UW
     .level(v-for="l in levels")
       .triforce-heart.compact
         .triangle(@click="l.triforceCollected = !l.triforceCollected" :class="{on:l.triforceCollected}")
@@ -56,7 +57,12 @@ export default {
       markers: state => state.markers,
       inputmap: state => state.inputmap
     }),
-    ...mapGetters(['getMarkersByGroup']),
+    ...mapGetters([
+      'getMarkersByGroup',
+      'isBindingUp',
+      'isBindingDown',
+      'isBindingPressed'
+    ]),
     selectedTile () { return this.tiles[this.selectedCell] }
   },
   data () {
@@ -83,13 +89,6 @@ export default {
       if (nextIndex >= keys.length) nextIndex = 0
       tile.marker = keys[nextIndex]
     },
-    cycleLevel (amount) {
-
-      let markers = Object.keys(this.getMarkersByGroup('dungeon'))
-      let next = markers.indexOf(this.selectedTile.marker) + 1
-      if (next >= markers.length) next = 0
-      this.selectedTile.marker = markers[next]
-    },
     cycleGroup (group) {
       let markers = Object.keys(this.getMarkersByGroup(group))
       let next = markers.indexOf(this.selectedTile.marker) + 1
@@ -97,57 +96,58 @@ export default {
       this.selectedTile.marker = markers[next]
     },
     clearMarker () {
-      if (this.selectedTile.marker === 'clear-marker') {
-        this.selectedTile.marker = 'default'
-      } else {
+      if (this.selectedTile.marker === 'default') {
         this.selectedTile.marker = 'clear-marker'
       }
-    },
-    handleInput (e, input) {
-      let activeCommands = []
-      for (const key in this.inputmap) {
-        if (this.inputmap[key].some(x => input.keys[x] && input.keys[x].pressed)) {
-          activeCommands.push(key)
-        }
+      else {
+        this.selectedTile.marker = 'default'
       }
-      activeCommands.forEach(c => {
-        if (c === 'selector-up') {
-          let nextCell = (parseInt(this.selectedCell, 16) - 16)
-          if (nextCell < 0) nextCell += 16 * this.rows.length
-          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
-        }
-        if (c === 'selector-down') {
-          let nextCell = (parseInt(this.selectedCell, 16) + 16)
-          if (nextCell >= 16 * 8) nextCell -= 16 * this.rows.length
-          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
-        }
-        if (c === 'selector-right') {
-          let nextCell = (parseInt(this.selectedCell, 16) + 1)
-          if (nextCell >= 16 * 8) nextCell = 0
-          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
-        }
-        if (c === 'selector-left') {
-          let nextCell = (parseInt(this.selectedCell, 16) - 1)
-          if (nextCell < 0) nextCell = 8 * 16 - 1
-          this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
-        }
-        if (c === 'cycle-level') {
-          this.cycleLevel()
-        }
-        if (c === 'cycle-shop') {
-          this.cycleGroup('shop')
-        }
-        if (c === 'cycle-misc') {
-          this.cycleGroup('misc')
-        }
-        if (c === 'cycle-warp') {
-          this.cycleGroup('warp')
-        }
-        if (c === 'clear-marker') {
-          this.clearMarker()
+    },
+    gameloop () {
+      this.handleSelectorMovement()
+      this.handleMarkerInput()
+    },
+    handleSelectorMovement () {
+      if (this.isBindingDown('selector-up')) {
+        this.moveSelector(-16)
+      }
+      if (this.isBindingDown('selector-down')) {
+        this.moveSelector(16)
+      }
+      if (this.isBindingDown('selector-left')) {
+        this.moveSelector(-1)
+      }
+      if (this.isBindingDown('selector-right')) {
+        this.moveSelector(1)
+      }
+    },
+    handleMarkerInput () {
+      if (this.isBindingDown('cycle-level')) {
+        this.cycleGroup('dungeon')
+      }
+      if (this.isBindingDown('cycle-shop')) {
+        this.cycleGroup('shop')
+      }
+      if (this.isBindingDown('cycle-misc')) {
+        this.cycleGroup('misc')
+      }
+      if (this.isBindingDown('cycle-warp')) {
+        this.cycleGroup('warp')
+      }
+      if (this.isBindingDown('clear-marker')) {
+        this.clearMarker()
+      }
+      Object.keys(this.markers).forEach(m => {
+        if (this.isBindingDown(m)) {
+          this.selectedTile.marker = m
         }
       })
-    }
+    },
+    moveSelector (amount) {
+      let nextCell = (parseInt(this.selectedCell, 16) + amount)
+      if (nextCell < 0 || nextCell >= 8 * 16) nextCell = this.selectedCell
+      this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
+    },
   }
 }
 </script>
@@ -197,10 +197,10 @@ export default {
         //background-color: rgba(255,255,255,.8)
         border: 4px solid white
         animation: glow 400ms ease-out infinite alternate
-    &:hover
-      .cell-cover
-        border: 1px solid white
-        background-color: rgba(255,255,255,.3)
+    // &:hover
+    //   .cell-cover
+    //     border: 1px solid white
+    //     background-color: rgba(255,255,255,.3)
     .cell-cover
       position: absolute
       top: 0

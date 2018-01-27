@@ -14,6 +14,11 @@ export default new Router({
       name: 'InputMap',
       component: require('@/components/InputMap').default
     },
+     {
+      path: '/dungeon',
+      name: 'TrackerDungeon',
+      component: require('@/components/TrackerDungeon').default
+    },
     {
       path: '*',
       redirect: '/'

@@ -25,6 +25,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['tileId'],
@@ -33,6 +34,11 @@ export default {
       markers: state => state.markers,
       inputmap: state => state.inputmap
     }),
+    ...mapGetters([
+      'isBindingUp',
+      'isBindingDown',
+      'isBindingPressed'
+    ]),
   },
   data () {
     return {
@@ -48,23 +54,28 @@ export default {
       this.bindingInputName = name
       this.bindingIndex = index
     },
-    handleInput (e, inputState) {
+    gameloop () {
       if (this.isBinding) {
-        e.preventDefault()
-        if (inputState.isKeyDown('Escape')) {
+        if (this.$game.input.isKeyUp('Escape')) {
           this.endBinding()
           return
         }
-        if (inputState.isKeyDown('Backspace')) {
+        if (this.$game.input.isKeyUp('Backspace')) {
           this.pressedKeys = []
           this.assignCurrentInput()
           return
         }
-        if (e.type === 'keydown' && !this.pressedKeys.includes(e.code)) {
-          this.pressedKeys.push(e.code)
-        } else if (e.type === 'keyup') {
+        let pressed = this.$game.input.getPressedKeys()
+        
+        pressed.forEach(k => {
+          if (!this.pressedKeys.includes(k.code)) {
+            this.pressedKeys.push(k.code)
+          }
+        });
+        if (this.pressedKeys.some(x => this.$game.input.isKeyUp(x))) {
           this.assignCurrentInput()
         }
+        console.log(this.pressedKeys)
       }
     },
     endBinding () {

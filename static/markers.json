@@ -102,18 +102,65 @@
     }
   },
   "underworld": {
-    "open": {
-      "group": "wall"
+    "rooms": {
+      "default": {
+        "group": "room",
+        "text": ""
+      },
+      "checked": {
+        "group": "room",
+        "text": ""
+      },
+      "interest": {
+        "group": "room",
+        "text": "*"
+      },
+      "boss": {
+        "group": "room",
+        "text": "B"
+      },
+      "triforce": {
+        "group": "room",
+        "text": "T"
+      },
+      "stair-1": {
+        "group": "stair",
+        "text": "F"
+      },
+      "stair-2": {
+        "group": "stair",
+        "text": "E"
+      },
+      "stair-3": {
+        "group": "stair",
+        "text": "D"
+      },
+      "stair-4": {
+        "group": "stair",
+        "text": "C"
+      },
+      "stair-5": {
+        "group": "stair",
+        "text": "B"
+      },
+      "stair-6": {
+        "group": "stair",
+        "text": "A"
+      }
     },
-    "blocked": {
-      "group": "wall"
-    },
-    "checked": {
-      "group": "room"
-    },
-    "interest": {
-      "group": "room",
-      "text": "?"
+    "walls": {
+      "default": {
+        "group": "wall",
+        "text": ""
+      },
+      "open": {
+        "group": "wall",
+        "text": ""
+      },
+      "blocked": {
+        "group": "wall",
+        "text": ""
+      }
     }
   }
 }

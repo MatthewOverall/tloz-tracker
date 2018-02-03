@@ -52,7 +52,7 @@ body
   user-select: none
 .app-view
   overflow-y: auto
-
+  height: calc(100vh - 21px)
 .tilebar
   height: 20px
   display: flex
@@ -81,5 +81,24 @@ body
       background-color: gray
       &.close
         background-color: red
+::-webkit-scrollbar-button
+  display: none
+  height: 13px
+  border-radius: 0px
+  background-color: #AAA
+  &:hover
+    background-color: #AAA
 
+::-webkit-scrollbar-thumb
+  background-color: #9c9c9c
+  &:hover
+    background-color: #CCC
+
+::-webkit-scrollbar-track
+  background-color: #000000
+  &:hover
+    background-color: #000000
+
+::-webkit-scrollbar
+  width: 13px
 </style>

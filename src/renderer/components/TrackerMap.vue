@@ -7,36 +7,42 @@
           v-for="col in cols" 
           v-bind:class="{selected:selectedCell == row+col}"
           v-on:mouseenter = "selectedCell = row+col"
-          @click="cycleMarker(tiles[row+col])"
+          @click="cycleMarker(tiles[row+col], 1, $event)"
+          @click.right="cycleMarker(tiles[row+col],-1, $event)"
         )
         img(v-bind:src="`./static/map/${row+col}.png`")
         .cell-cover(v-bind:class="tiles[row+col].area")
         tile-marker(:tile-id="row+col")
-  .toolbar.flex
-    div.flex.column
-      .toggle(@click="showArea = !showArea" :class="{on:showArea}") AREA
-      router-link.toggle.mt-5(to="input") CONFIG
-      router-link.toggle.mt-5(to="dungeon") UW
+  .toolbar.flex.mt-10.ml-5.mr-5
     .level(v-for="l in levels")
-      .triforce-heart.compact
-        .triangle(@click="l.triforceCollected = !l.triforceCollected" :class="{on:l.triforceCollected}")
+      .triforce-heart(:class="'level-'+l.level")
+        .triangle(@click="toggle(l.triforce)" :class="{on:l.triforce.collected}")
           | {{l.level}}
-        .heart(@click="l.heartCollected = !l.heartCollected" :class="{on:l.heartCollected}")
-      .item-box(v-for="item in l.items" @click="cycleItem(item)")
+        .heart(@click="toggle(l.heart)" :class="{on:l.heart.collected}")
+      .item-box(v-for="item in l.items" @click="cycleItem(item)" @click.right.prevent="cycleItem(item,-1)")
         .item(:class="items[item.id]")
     .overworld-items
       .overworld-item
         .item-box
-          .item(:class="items[oi.armos.id]" @click="cycleItem(oi.armos)")
+          .item(:class="items[oi.armos.id]" @click="cycleItem(oi.armos)" @click.right.prevent="cycleItem(oi.armos,-1)")
         .item-label A
       .overworld-item
         .item-box
-          .item(:class="items[oi.whiteSword.id]" @click="cycleItem(oi.whiteSword)")
+          .item(:class="items[oi.whiteSword.id]" @click="cycleItem(oi.whiteSword)" @click.right.prevent="cycleItem(oi.whiteSword,-1)")
         .item-label WS
       .overworld-item
         .item-box
-          .item(:class="items[oi.coast.id]" @click="cycleItem(oi.coast)")
+          .item(:class="items[oi.coast.id]" @click="cycleItem(oi.coast)" @click.right.prevent="cycleItem(oi.coast,-1)")
         .item-label C
+    .spacer
+    .btn.btn-sm.mr-5(@click="resetAll") RESET
+    .btn.btn-sm.mr-5(@click="load") LOAD
+    .btn.btn-sm.mr-5(@click="save") SAVE
+    .spacer
+    .flex.column
+      .btn.btn-sm(@click="showArea = !showArea" :class="{active:showArea}") AREA
+      router-link.btn.btn-sm.mt-5(to="input") CONFIG
+      router-link.btn.btn-sm.mt-5(to="dungeon") DUNGEONS
 </template>
 
 <script>
@@ -44,6 +50,7 @@ import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import { createWriteStream } from 'fs';
 import TileMarker from './TileMarker'
+
 
 export default {
   name: 'TrackerMap',
@@ -76,31 +83,35 @@ export default {
   mounted () {
   },
   methods: {
-    cycleItem (item) {
-      let nextId = item.id + 1
-      if (nextId >= this.items.length) {
-        nextId = 0
-      }
-      item.id = nextId
+    toggle (item) {
+      this.$store.commit("TOGGLE_COLLECTED", item)
     },
-    cycleMarker (tile) {
+    cycleItem (item, amount) {
+      let nextId = item.id + (amount || 1)
+      if (nextId >= this.items.length) nextId = 0
+      if (nextId < 0) nextId = this.items.length - 1
+      this.$store.commit("SET_ITEM_MARKER", { item: item, markerId: nextId })
+    },
+    cycleMarker (tile, amount, e) {
+      e.preventDefault()
       let keys = Object.keys(this.markers)
-      let nextIndex = keys.indexOf(tile.marker) + 1
+      let nextIndex = keys.indexOf(tile.marker) + (amount || 1)
       if (nextIndex >= keys.length) nextIndex = 0
-      tile.marker = keys[nextIndex]
+      if (nextIndex < 0) nextIndex = keys.length - 1
+      this.$store.commit("SET_TILE_MARKER", { tile, marker: keys[nextIndex] })
     },
     cycleGroup (group) {
       let markers = Object.keys(this.getMarkersByGroup(group))
       let next = markers.indexOf(this.selectedTile.marker) + 1
       if (next >= markers.length) next = 0
-      this.selectedTile.marker = markers[next]
+      this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: markers[next] })
     },
     clearMarker () {
       if (this.selectedTile.marker === 'default') {
-        this.selectedTile.marker = 'clear-marker'
+        this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: 'clear-marker' })
       }
       else {
-        this.selectedTile.marker = 'default'
+        this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: 'default' })
       }
     },
     gameloop () {
@@ -148,16 +159,22 @@ export default {
       if (nextCell < 0 || nextCell >= 8 * 16) nextCell = this.selectedCell
       this.selectedCell = nextCell.toString(16).toUpperCase().padStart(2, "0")
     },
+    resetAll () {
+      this.$store.dispatch('RESET_ALL')
+    },
+    load () {
+      this.$store.dispatch('LOAD')
+    },
+    save () {
+      this.$store.dispatch('SAVE')
+    }
   }
 }
 </script>
 
-<style lang="sass">
-
-  .flex
-    display: flex
-    &.column
-      flex-direction: column
+<style lang="sass" scoped="true">
+  .spacer
+    flex: 1
   .map
     display: flex
     flex-direction: column
@@ -195,8 +212,8 @@ export default {
     &.selected
       .cell-cover
         //background-color: rgba(255,255,255,.8)
-        border: 4px solid white
-        animation: glow 400ms ease-out infinite alternate
+        border: 4px solid magenta
+        //animation: glow 400ms ease-out infinite alternate
     // &:hover
     //   .cell-cover
     //     border: 1px solid white
@@ -226,16 +243,8 @@ export default {
       100% 
         border-color: white
         box-shadow: 0 0 5px rgba(0,255,0,.2), inset 0 0 5px rgba(0,255,0,.1), 0 2px 0 #000;
-
-  .toggle
-    border: 3px solid gray
-    color: gray
-    display: inline-block
-    padding: 2px
-    text-align: center
-    &.on
-      color: white
-      border: 3px solid white
+  .toolbar
+    align-items: flex-start
   .level
     display: flex
     flex-direction: column
@@ -243,6 +252,8 @@ export default {
   .triforce-heart
     display: flex
     flex-direction: column
+    &.level-9
+      opacity: 0
     &.compact
       flex-direction: row
       .heart
@@ -291,11 +302,12 @@ export default {
   .item-box
     margin-top: 2px
     border: 2px solid grey
-    height: 24px
-    width: 24px
+    height: 28px
+    width: 28px
     border-radius: 4px
     display: flex
     align-items: center
+    justify-content: center
   .overworld-item
     display: flex
     flex-direction: row-reverse

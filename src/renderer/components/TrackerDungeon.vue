@@ -4,99 +4,72 @@ div
     .fa.fa-times-circle-o.fa-lg
     div ESC
   .flex
-    .letter L
-    .letter E
-    .letter V
-    .letter E
-    .letter L
-    .letter -
-    .letter X
-  .flex(v-for="row in layout")
-    .flex(v-for="cell in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker]")
-      div(v-if="cell.type==='room'") {{cell.text}}
+    .flex.column
+      .flex.dungeon-map
+        .letter L
+        .letter E
+        .letter V
+        .letter E
+        .letter L
+        .letter -
+        .letter {{activeLevel.level}}
+      .flex(v-for="row in activeLevel.map")
+        .flex(v-for="cell in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
+          div(v-if="cell.type==='room'") {{roomMarkers[cell.marker].text}}
+    .level-select
+      .flex(v-for="level in levels")
+        .btn.mt-5(@click="selectLevel(level.level)" :class="{active:level.level === activeLevel.level}") level-{{level.level}}
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { mapState } from 'vuex'
-let map = `
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
--.-.-.-.-.-.-.-
-R|R|R|R|R|R|R|R
-`
 
-let layout = map.trim().split(/\r?\n/).map(x => x.split(''))
-
-for (let i = 0; i < layout.length; i++) {
-  for (let j = 0; j < layout[i].length; j++) {
-    let obj = { r: i, c: j, marker: '' }
-    switch (layout[i][j]) {
-      case '.':
-        obj.type = 'spacer'
-        break
-      case '-':
-        obj.type = 'wall-h'
-        break
-      case '|':
-        obj.type = 'wall-v'
-        break
-      case 'R':
-        obj.type = 'room'
-        break
-    }
-    layout[i][j] = obj
-  }
-}
-let selected = { r: 0, c: 0 }
+let selected = { r: 14, c: 12 }
 export default {
   computed: {
     ...mapGetters([
       'isBindingUp',
       'isBindingDown',
-      'isBindingPressed'
+      'isBindingPressed',
+      'activeLevel'
     ]),
     ...mapState({
       roomMarkers: state => state.roomMarkers,
       wallMarkers: state => state.wallMarkers,
-      inputmap: state => state.inputmap
+      inputmap: state => state.inputmap,
+      levels: state => state.tracker.levels
     }),
   },
   data () {
     return {
-      width: 8,
-      height: 8,
-      layout,
       selected
     }
   },
   methods: {
-    cycleWall (wall) {
-      let next = this.wallMarkers.indexOf(wall.marker) + 1
-      if (next >= this.wallMarkers.length) next = 0
-      wall.marker = this.wallMarkers[next]
+    cycleWall (wall, amount) {
+      let keys = Object.keys(this.wallMarkers)
+      let next = keys.indexOf(wall.marker) + amount
+      if (next >= keys.length) next = 0
+      if (next < 0) next = keys.length - 1
+      this.$store.commit('SET_TILE_MARKER', { tile: wall, marker: keys[next] })
     },
-    cycleRoom (room) {
-      let next = this.roomMarkers.indexOf(room.marker) + 1
-      if (next >= this.roomMarkers.length) next = 0
-      room.marker = this.roomMarkers[next]
-      if (room.marker === 'interest') {
-        room.text = '?'
+    cycleRoom (room, amount) {
+      let keys = Object.keys(this.roomMarkers)
+      let next = keys.indexOf(room.marker) + amount
+      if (next >= keys.length) next = 0
+      if (next < 0) next = keys.length - 1
+      this.$store.commit('SET_TILE_MARKER', { tile: room, marker: keys[next] })
+    },
+    cycle (obj, amount) {
+      if (obj.type == 'room') {
+        this.cycleRoom(obj, amount)
+      } else if (obj.type.startsWith('wall')) {
+        this.cycleWall(obj, amount)
       }
     },
     getCell (r, c) {
-      let row = this.layout[r]
+      let row = this.activeLevel.map[r]
       if (!row) return undefined
       return row[c]
     },
@@ -109,29 +82,29 @@ export default {
       if (this.isBindingDown('cycle-wall-left')) {
         let wall = this.getCell(r, c - 1)
         if (wall) {
-          this.cycleWall(wall)
+          this.cycleWall(wall, 1)
         }
       }
       if (this.isBindingDown('cycle-wall-right')) {
         let wall = this.getCell(r, c + 1)
         if (wall) {
-          this.cycleWall(wall)
+          this.cycleWall(wall, 1)
         }
       }
       if (this.isBindingDown('cycle-wall-up')) {
         let wall = this.getCell(r - 1, c)
         if (wall) {
-          this.cycleWall(wall)
+          this.cycleWall(wall, 1)
         }
       }
       if (this.isBindingDown('cycle-wall-down')) {
         let wall = this.getCell(r + 1, c)
         if (wall) {
-          this.cycleWall(wall)
+          this.cycleWall(wall, 1)
         }
       }
       if (this.isBindingDown('cycle-room')) {
-        this.cycleRoom(this.layout[r][c])
+        this.cycleRoom(this.layout[r][c], 1)
       }
     },
     handleSelectorMovement () {
@@ -148,13 +121,16 @@ export default {
         this.selected.c = Math.min(14, this.selected.c + 2)
       }
     },
+    selectLevel (level) {
+      this.$store.commit('SET_ACTIVE_LEVEL', level)
+    }
   }
 }
 </script>
 
-<style lang="sass">
-$min: 1.8vh
-$max: 9vh
+<style lang="sass" scoped="true">
+$min: 2.3vh
+$max: 8.5vh
 $borderColor: grey
 
 .wall-h,
@@ -180,7 +156,10 @@ $borderColor: grey
   border: 1px solid $borderColor
   align-items: center
   justify-content: space-around
-  font-size: 1em
+  font-size: 5vh
+  background-color: white
+  &.default
+    background-color: transparent
   &.selected
     //background-color: white
     border: 2px solid magenta
@@ -188,6 +167,10 @@ $borderColor: grey
     background-color: white
   &.interest
     background-color: white
+  &.boss
+    background-color: green
+  &.triforce
+    background-color: orange
 .spacer
   height: $min
   width: $min
@@ -202,6 +185,11 @@ $borderColor: grey
 .esc
   position: fixed
   right: 25px
-  top: 10px
+  top: 30px
+
+.level-select
+  display: flex
+  flex-direction: column
+  margin-left: 10px
 </style>
 

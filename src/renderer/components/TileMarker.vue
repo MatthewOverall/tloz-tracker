@@ -1,7 +1,7 @@
 <template lang="pug">
 .marker
-  .tile-icon(v-if="tile && tile.marker == 'default'" v-show="tile.type" :class="tile.type")
-  .marker-icon(v-if="tile.marker != 'default'" :class="[marker.group, tile.marker]")
+  .tile-icon(v-if="tile && tile.marker === 'default'" v-show="tile.type" :class="tile.type")
+  .marker-icon(v-if="tile.marker !== 'default'" :class="[marker.group, tile.marker]")
     .marker-text {{marker.text}}
 </template>
 

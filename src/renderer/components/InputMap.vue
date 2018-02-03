@@ -105,7 +105,7 @@ export default {
 .esc
   position: fixed
   right: 25px
-  top: 10px
+  top: 30px
 
 table 
   border-collapse: collapse

@@ -23,7 +23,7 @@ function createWindow () {
     height: 540,
     useContentSize: true,
     width: 715,
-    frame: false
+    frame: false,
   })
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)

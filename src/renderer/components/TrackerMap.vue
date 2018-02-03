@@ -147,12 +147,13 @@ export default {
       }
       if (this.isBindingDown('clear-marker')) {
         this.clearMarker()
+      } else {
+        Object.keys(this.markers).forEach(m => {
+          if (this.isBindingDown(m)) {
+            this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: m })
+          }
+        })
       }
-      Object.keys(this.markers).forEach(m => {
-        if (this.isBindingDown(m)) {
-          this.selectedTile.marker = m
-        }
-      })
     },
     moveSelector (amount) {
       let nextCell = (parseInt(this.selectedCell, 16) + amount)

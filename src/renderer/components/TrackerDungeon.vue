@@ -103,8 +103,12 @@ export default {
           this.cycleWall(wall, 1)
         }
       }
-      if (this.isBindingDown('cycle-room')) {
-        this.cycleRoom(this.layout[r][c], 1)
+      if (this.isBindingDown('cycle-room-up')) {
+        let room = this.getCell(r, c)
+        this.cycleRoom(room, 1)
+      } else if (this.isBindingDown('cycle-room-down')) {
+        let room = this.getCell(r, c)
+        this.cycleRoom(room, -1)
       }
     },
     handleSelectorMovement () {

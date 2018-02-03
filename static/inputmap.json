@@ -45,5 +45,6 @@
   "cycle-wall-down": [],
   "cycle-wall-left": [],
   "cycle-wall-right": [],
-  "cycle-room": []
+  "cycle-room-up": [],
+  "cycle-room-down": []
 }

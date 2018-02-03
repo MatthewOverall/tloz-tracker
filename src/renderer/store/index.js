@@ -17,6 +17,7 @@ if (storedInput) {
   storedInput = inputmap
 }
 
+storedInput = Object.assign(inputmap, storedInput)
 
 
 let map = `
@@ -197,7 +198,16 @@ const mutations = {
 
 const actions = {
   RESET_ALL ({ commit }) {
-    commit('RESET_ALL')
+    dialog.showMessageBox({
+      type: 'question',
+      title: 'Reset Tracker?',
+      message: 'Do you want to reset the tracker?',
+      buttons: ['Yes', 'No'],
+    }, result => {
+      if(result === 0){
+        commit('RESET_ALL')
+      }
+    })
   },
   LOAD ({ commit }) {
     dialog.showOpenDialog({

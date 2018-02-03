@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "author": "Matthew Overall <matthew.overall@boisecodeworks.com>",
   "description": "The Legend of Zelda Randomizer Tracker",
-  "license": "",
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",

@@ -1,9 +1,9 @@
 {
   "name": "tloz-tracker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Matthew Overall <matthew.overall@boisecodeworks.com>",
   "description": "The Legend of Zelda Randomizer Tracker",
-  "license": null,
+  "license": "",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",

@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 require('electron-context-menu')({})
-
+require('electron-debug')({ enabled: true })
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -20,9 +20,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 540,
     useContentSize: true,
-    width: 1000,
+    width: 715,
     frame: false
   })
   mainWindow.setMenu(null)
@@ -34,7 +34,7 @@ function createWindow () {
 
   mainWindow.get
 }
-
+app.disableHardwareAcceleration()
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {

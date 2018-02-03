@@ -104,32 +104,6 @@ const mutations = {
       }
     }
 
-    state.tracker.levels.forEach(dungeon => {
-      let dungeonLayout = map.trim().split(/\r?\n/).map(x => x.split(''))
-
-      for (let i = 0; i < dungeonLayout.length; i++) {
-        for (let j = 0; j < dungeonLayout[i].length; j++) {
-          let obj = { r: i, c: j, marker: 'default' }
-          switch (dungeonLayout[i][j]) {
-            case '.':
-              obj.type = 'spacer'
-              break
-            case '-':
-              obj.type = 'wall-h'
-              break
-            case '|':
-              obj.type = 'wall-v'
-              break
-            case 'R':
-              obj.type = 'room'
-              break
-          }
-          dungeonLayout[i][j] = obj
-        }
-      }
-      dungeon.map = dungeonLayout
-    })
-
     state.tracker.levels = [{
       level: 1,
       triforce: { collected: false },
@@ -191,6 +165,32 @@ const mutations = {
       coast: { id: 0 },
       armos: { id: 0 },
     }
+
+    state.tracker.levels.forEach(dungeon => {
+      let dungeonLayout = map.trim().split(/\r?\n/).map(x => x.split(''))
+
+      for (let i = 0; i < dungeonLayout.length; i++) {
+        for (let j = 0; j < dungeonLayout[i].length; j++) {
+          let obj = { r: i, c: j, marker: 'default' }
+          switch (dungeonLayout[i][j]) {
+            case '.':
+              obj.type = 'spacer'
+              break
+            case '-':
+              obj.type = 'wall-h'
+              break
+            case '|':
+              obj.type = 'wall-v'
+              break
+            case 'R':
+              obj.type = 'room'
+              break
+          }
+          dungeonLayout[i][j] = obj
+        }
+      }
+      dungeon.map = dungeonLayout
+    })
     saveTracker()
   }
 }

@@ -201,15 +201,15 @@
     "area": "grave"
   },
   "32": {
-    "type": "cave",
-    "area": "grave"
-  },
-  "33": {
     "type": "",
     "area": "grave"
   },
-  "34": {
+  "33": {
     "type": "bomb",
+    "area": "grave"
+  },
+  "34": {
+    "type": "cave",
     "area": "lake"
   },
   "35": {

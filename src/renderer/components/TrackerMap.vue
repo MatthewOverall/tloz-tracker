@@ -7,8 +7,8 @@
           v-for="col in cols" 
           v-bind:class="{selected:selectedCell == row+col}"
           v-on:mouseenter = "selectedCell = row+col"
-          @click="cycleMarker(tiles[row+col], 1, $event)"
-          @click.right="cycleMarker(tiles[row+col],-1, $event)"
+          @click="cycleMarker(tileMarkers[row+col], 1, $event)"
+          @click.right="cycleMarker(tileMarkers[row+col],-1, $event)"
         )
         img(v-bind:src="`./static/map/${row+col}.png`")
         .cell-cover(v-bind:class="tiles[row+col].area")
@@ -40,6 +40,10 @@
     .btn.btn-sm.mr-5(@click="save") SAVE
     .spacer
     .flex.column
+      .btn.btn-sm(@click="changeQuest" :class="{active:$store.state.tracker.activeQuest === 2}") 2nd Quest
+      .btn.btn-sm.mt-5(@click="mixQuest" :class="{active:$store.state.tracker.mixQuest}") Mix Quest      
+    .spacer
+    .flex.column
       .btn.btn-sm(@click="showArea = !showArea" :class="{active:showArea}") AREA
       router-link.btn.btn-sm.mt-5(to="input") CONFIG
       router-link.btn.btn-sm.mt-5(to="dungeon") DUNGEONS
@@ -57,7 +61,7 @@ export default {
   components: { TileMarker },
   computed: {
     ...mapState({
-      tiles: state => state.tracker.tiles,
+      tileMarkers: state => state.tracker.overworld,
       levels: state => state.tracker.levels,
       items: state => state.items,
       oi: state => state.tracker.overworldItems,
@@ -68,9 +72,10 @@ export default {
       'getMarkersByGroup',
       'isBindingUp',
       'isBindingDown',
-      'isBindingPressed'
+      'isBindingPressed',
+      'tiles'
     ]),
-    selectedTile () { return this.tiles[this.selectedCell] }
+    selectedTile () { return this.tileMarkers[this.selectedCell] }
   },
   data () {
     return {
@@ -113,6 +118,12 @@ export default {
       else {
         this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: 'default' })
       }
+    },
+    changeQuest () {
+      this.$store.commit('CHANGE_QUEST')
+    },
+    mixQuest () {
+      this.$store.commit('MIX_QUEST')
     },
     gameloop () {
       this.handleSelectorMovement()

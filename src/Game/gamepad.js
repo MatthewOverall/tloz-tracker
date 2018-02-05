@@ -67,11 +67,9 @@ function updateState (frame) {
       })
       if (!pbs.pressed && b.pressed) {
         pbs.frameDown = frame
-        console.log(frame)
       }
       if (pbs.pressed && !b.pressed) {
         pbs.frameUp = frame
-        console.log(frame)
       }
       pbs.pressed = b.pressed
       pbs.value = b.value

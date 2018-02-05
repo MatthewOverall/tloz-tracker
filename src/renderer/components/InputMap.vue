@@ -75,7 +75,6 @@ export default {
         if (this.pressedKeys.some(x => this.$game.input.isKeyUp(x))) {
           this.assignCurrentInput()
         }
-        console.log(this.pressedKeys)
       }
     },
     endBinding () {

@@ -1,7 +1,7 @@
 <template lang="pug">
 .marker
-  .tile-icon(v-if="tile && tile.marker === 'default'" v-show="tile.type" :class="tile.type")
-  .marker-icon(v-if="tile.marker !== 'default'" :class="[marker.group, tile.marker]")
+  .tile-icon(v-if="tile && tileMarker && tileMarker.marker === 'default'" v-show="tile.type" :class="tile.type")
+  .marker-icon(v-if="tileMarker.marker !== 'default'" :class="[marker.group, tileMarker.marker]")
     .marker-text {{marker.text}}
 </template>
 
@@ -16,12 +16,18 @@ export default {
       return this.tiles[this.tileId]
     },
     marker () {
-      return this.markers[this.tile.marker]
+      return this.markers[this.tileMarker.marker]
+    },
+    tileMarker () {
+      return this.tileMarkers[this.tileId]
     },
     ...mapState({
-      tiles: state => state.tracker.tiles,
-      markers: state => state.markers
+      markers: state => state.markers,
+      tileMarkers: state => state.tracker.overworld
     }),
+    ...mapGetters([
+      'tiles'
+    ])
   },
   data () {
     return {
@@ -74,7 +80,7 @@ export default {
   border: 2px solid black
   box-shadow: 2px 2px 4px black
   &.raft
-    background-color: red
+    background-color: brown
   &.recorder
     background-color: red
   &.bracelet

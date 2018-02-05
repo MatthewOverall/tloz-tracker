@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import tiles from '../../../static/tiles.json'
+import tiles1q from '../../../static/tiles1q.json'
+import tiles2q from '../../../static/tiles2q.json'
 import markers from '../../../static/markers.json'
 import inputmap from '../../../static/inputmap.json'
 import createPersistedState from 'vuex-persistedstate'
 import gameState from '../../Game'
 import fs from 'fs'
-
 const { dialog } = require('electron').remote
+let tilesMixed = JSON.parse(JSON.stringify(tiles1q));
 Vue.use(Vuex)
 
 let storedInput = localStorage.getItem('inputmap')
@@ -19,6 +20,11 @@ if (storedInput) {
 
 storedInput = Object.assign(inputmap, storedInput)
 
+for (const key in tiles2q) {
+  if (tiles2q[key].type) {
+    tilesMixed[key].type = tiles2q[key].type
+  }
+}
 
 let map = `
 R|R|R|R|R|R|R|R
@@ -63,9 +69,13 @@ const state = {
   roomMarkers: markers.underworld.rooms,
   markers: markers.overworld,
   inputmap: storedInput,
+  tiles1q,
+  tiles2q,
+  tilesMixed,
   tracker: {
-    tiles: tiles,
+    overworld: {},
     activeLevel: 9,
+    activeQuest: 1,
     overworldItems: {
       whiteSword: { id: 0 },
       coast: { id: 0 },
@@ -101,10 +111,11 @@ const mutations = {
   RESET_ALL (state) {
     for (let r = 0; r < state.rows.length; r++) {
       for (let c = 0; c < state.cols.length; c++) {
-        state.tracker.tiles[state.rows[r] + state.cols[c]].marker = 'default'
+        state.tracker.overworld[state.rows[r] + state.cols[c]] = { marker: 'default' }
       }
     }
-
+    state.tracker.activeQuest = 1
+    state.tracker.mixQuest = false
     state.tracker.levels = [{
       level: 1,
       triforce: { collected: false },
@@ -193,6 +204,12 @@ const mutations = {
       dungeon.map = dungeonLayout
     })
     saveTracker()
+  },
+  CHANGE_QUEST (state) {
+    state.tracker.activeQuest = state.tracker.activeQuest === 1 ? 2 : 1
+  },
+  MIX_QUEST (state) {
+    state.tracker.mixQuest = !state.tracker.mixQuest
   }
 }
 
@@ -204,7 +221,7 @@ const actions = {
       message: 'Do you want to reset the tracker?',
       buttons: ['Yes', 'No'],
     }, result => {
-      if(result === 0){
+      if (result === 0) {
         commit('RESET_ALL')
       }
     })
@@ -229,7 +246,7 @@ const actions = {
       let content = JSON.stringify(state.tracker)
       fs.writeFileSync(file, content, 'utf-8')
     })
-  },
+  }
 }
 
 const getters = {
@@ -255,6 +272,10 @@ const getters = {
   },
   activeLevel (state) {
     return state.tracker.levels.find(x => x.level === state.tracker.activeLevel)
+  },
+  tiles (state) {
+    if (state.tracker.mixQuest) return state.tilesMixed
+    return state.tracker.activeQuest === 1 ? state.tiles1q : state.tiles2q
   }
 }
 

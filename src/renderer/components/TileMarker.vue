@@ -22,8 +22,8 @@ export default {
       return this.tileMarkers[this.tileId]
     },
     ...mapState({
-      markers: state => state.markers,
-      tileMarkers: state => state.tracker.overworld
+      markers: state => state.Main.markers.overworld,
+      tileMarkers: state => state.Main.tracker.overworld
     }),
     ...mapGetters([
       'tiles'

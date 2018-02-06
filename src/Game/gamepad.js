@@ -21,25 +21,29 @@ const codeMap = {
 const state = {
   frame: 0,
   gamepads: [],
-  keys: {}
 }
 
 function addgamepad (gamepad) {
   state.gamepads[gamepad.index] = gamepad
+  gamepad.state = {}
+  console.log("Gamepad added", gamepad)
 }
 
 function removegamepad (gamepad) {
+  console.log("Gamepad Removed", gamepad)
   delete state.gamepads[gamepad.index]
 }
 
 function updateState (frame) {
   scangamepads()
+
   state.frame = frame
   state.gamepads.forEach(g => {
+    if (!g.state) g.state = {}
     // remap all the buttons
     let buttons = g.buttons.map((b, i) => {
       return {
-        code: `C${g.index}B${i}`,
+        code: `CB${i}`,
         pressed: b.pressed,
         value: b.value
       }
@@ -47,20 +51,19 @@ function updateState (frame) {
     // remap each axis to a button press
     g.axes.forEach((a, i) => {
       buttons.push({
-        code: `C${g.index}A${i}P`,
-        pressed: a >= .5, //todo dead zone move to var
+        code: `CA${i}P`,
+        pressed: a >= .7, //todo dead zone move to var
         value: a
       })
       buttons.push({
-        code: `C${g.index}A${i}N`,
-        pressed: a <= -.5,
+        code: `CA${i}N`,
+        pressed: a <= -.7,
         value: a
       })
     })
-
     // update the current state
     buttons.forEach(b => {
-      let pbs = state.keys[b.code] = (state.keys[b.code] || {
+      let pbs = g.state[b.code] = (g.state[b.code] || {
         pressed: false,
         code: b.code,
         value: 0
@@ -79,20 +82,18 @@ function updateState (frame) {
 }
 
 function scangamepads () {
-  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+  var gamepads = navigator.getGamepads()
+
   for (var i = 0; i < gamepads.length; i++) {
     if (gamepads[i]) {
-      if (gamepads[i].index in gamepads) {
-        gamepads[gamepads[i].index] = gamepads[i];
+      if (gamepads[i].index in state.gamepads) {
+        state.gamepads[gamepads[i].index] = gamepads[i];
       } else {
         addgamepad(gamepads[i]);
       }
     }
   }
 }
-
-window.addEventListener("gamepadconnected", e => addgamepad(e.gamepad));
-window.addEventListener("gamepaddisconnected", e => removegamepad(e.gamepad));
 
 export default {
   state,

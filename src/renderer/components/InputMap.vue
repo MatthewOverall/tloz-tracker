@@ -31,8 +31,8 @@ export default {
   props: ['tileId'],
   computed: {
     ...mapState({
-      markers: state => state.markers,
-      inputmap: state => state.inputmap
+      markers: state => state.Main.markers,
+      inputmap: state => state.Input.inputmap
     }),
     ...mapGetters([
       'isBindingUp',

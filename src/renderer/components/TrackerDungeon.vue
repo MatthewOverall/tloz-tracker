@@ -12,13 +12,13 @@ div
         .letter E
         .letter L
         .letter -
-        .letter {{activeLevel.level}}
-      .flex(v-for="row in activeLevel.map")
+        .letter {{activeLevel}}
+      .flex(v-for="row in activeMap")
         .flex(v-for="cell in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
           div(v-if="cell.type==='room'") {{roomMarkers[cell.marker].text}}
     .level-select
-      .flex(v-for="level in levels")
-        .btn.mt-5(@click="selectLevel(level.level)" :class="{active:level.level === activeLevel.level}") level-{{level.level}}
+      .flex(v-for="level in levelIds")
+        .btn.mt-5(@click="selectLevel(level)" :class="{active:level == activeLevel}") level-{{level}}
 </template>
 
 <script>
@@ -32,13 +32,16 @@ export default {
       'isBindingUp',
       'isBindingDown',
       'isBindingPressed',
-      'activeLevel'
+      'activeMap',
     ]),
     ...mapState({
-      roomMarkers: state => state.roomMarkers,
-      wallMarkers: state => state.wallMarkers,
-      inputmap: state => state.inputmap,
-      levels: state => state.tracker.levels
+      roomMarkers: state => state.Main.roomMarkers,
+      wallMarkers: state => state.Main.wallMarkers,
+      inputmap: state => state.Input.inputmap,
+      dungeons: state => state.Main.dungeons,
+      levelIds: state => state.Main.levelIds,
+      activeLevel: state => state.Main.tracker.activeLevel,
+      maps: state => state.Main.tracker.maps
     }),
   },
   data () {
@@ -52,6 +55,7 @@ export default {
       let next = keys.indexOf(wall.marker) + amount
       if (next >= keys.length) next = 0
       if (next < 0) next = keys.length - 1
+
       this.$store.commit('SET_TILE_MARKER', { tile: wall, marker: keys[next] })
     },
     cycleRoom (room, amount) {
@@ -59,6 +63,7 @@ export default {
       let next = keys.indexOf(room.marker) + amount
       if (next >= keys.length) next = 0
       if (next < 0) next = keys.length - 1
+
       this.$store.commit('SET_TILE_MARKER', { tile: room, marker: keys[next] })
     },
     cycle (obj, amount) {
@@ -69,7 +74,7 @@ export default {
       }
     },
     getCell (r, c) {
-      let row = this.activeLevel.map[r]
+      let row = this.activeMap[r]
       if (!row) return undefined
       return row[c]
     },
@@ -79,28 +84,41 @@ export default {
     },
     handleMarkerInput () {
       let { r, c } = this.selected
+      let room = this.getCell(r, c)
       if (this.isBindingDown('cycle-wall-left')) {
         let wall = this.getCell(r, c - 1)
         if (wall) {
           this.cycleWall(wall, 1)
+          if (room.marker === 'default') {
+            this.cycleRoom(room, 1)
+          }
         }
       }
       if (this.isBindingDown('cycle-wall-right')) {
         let wall = this.getCell(r, c + 1)
         if (wall) {
           this.cycleWall(wall, 1)
+          if (room.marker === 'default') {
+            this.cycleRoom(room, 1)
+          }
         }
       }
       if (this.isBindingDown('cycle-wall-up')) {
         let wall = this.getCell(r - 1, c)
         if (wall) {
           this.cycleWall(wall, 1)
+          if (room.marker === 'default') {
+            this.cycleRoom(room, 1)
+          }
         }
       }
       if (this.isBindingDown('cycle-wall-down')) {
         let wall = this.getCell(r + 1, c)
         if (wall) {
           this.cycleWall(wall, 1)
+          if (room.marker === 'default') {
+            this.cycleRoom(room, 1)
+          }
         }
       }
       if (this.isBindingDown('cycle-room-up')) {

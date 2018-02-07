@@ -20,6 +20,11 @@ export default new Router({
       component: require('@/components/TrackerDungeon').default
     },
     {
+      path: '/gamepad',
+      name: 'GamepadViewer',
+      component: require('@/../Game/GamepadViewer').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

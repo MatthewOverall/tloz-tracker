@@ -1,8 +1,12 @@
 import gamepad from './gamepad'
 import keyboard from './keyboard'
 
+const state = {
+  frame: 0
+}
+
 const input = {
-  frame: 0,
+  time: 0,
   keys: {},
   gamepads: gamepad.state.gamepads,
   isKeyPressed (code) {
@@ -11,12 +15,12 @@ const input = {
       || this.gamepads.some(x => x.state[code] && x.state[code].pressed)
   },
   isKeyDown (code) {
-    return this.keys[code] && this.keys[code].frameDown === this.frame
-      || this.gamepads.some(x => x.state[code] && x.state[code].frameDown === this.frame)
+    return this.keys[code] && this.keys[code].timeDown === this.time
+      || this.gamepads.some(x => x.state[code] && x.state[code].timeDown === this.time)
   },
   isKeyUp (code) {
-    return this.keys[code] && this.keys[code].frameUp === this.frame
-      || this.gamepads.some(x => x.state[code] && x.state[code].frameUp === this.frame)
+    return this.keys[code] && this.keys[code].timeUp === this.time
+      || this.gamepads.some(x => x.state[code] && x.state[code].timeUp === this.time)
   },
   getPressedKeys () {
     let pressedKeys = []
@@ -34,10 +38,10 @@ const input = {
     })
     return pressedKeys
   },
-  updateState (frame) {
-    this.frame = frame
-    gamepad.updateState(frame)
-    keyboard.updateState(frame)
+  updateState (time) {
+    this.time = time
+    gamepad.updateState(time)
+    keyboard.updateState(time)
     this.keys = {
       //...gamepad.state.keys,
       ...keyboard.state.keys
@@ -45,13 +49,16 @@ const input = {
   }
 }
 
-function gameloop (frame) {
-  input.updateState(frame)
+function gameloop (time) {
+  input.updateState(time)
+  state.frame += 1
   window.dispatchEvent(new Event('gameloop'))
   requestAnimationFrame(gameloop)
+
 }
 requestAnimationFrame(gameloop)
 
 export default {
-  input
+  input,
+  state
 }

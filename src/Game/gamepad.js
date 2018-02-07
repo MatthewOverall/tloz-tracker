@@ -19,7 +19,7 @@ const codeMap = {
 }
 
 const state = {
-  frame: 0,
+  time: 0,
   gamepads: [],
 }
 
@@ -34,10 +34,10 @@ function removegamepad (gamepad) {
   delete state.gamepads[gamepad.index]
 }
 
-function updateState (frame) {
+function updateState (time) {
   scangamepads()
 
-  state.frame = frame
+  state.time = time
   state.gamepads.forEach(g => {
     if (!g.state) g.state = {}
     // remap all the buttons
@@ -69,10 +69,10 @@ function updateState (frame) {
         value: 0
       })
       if (!pbs.pressed && b.pressed) {
-        pbs.frameDown = frame
+        pbs.timeDown = time
       }
       if (pbs.pressed && !b.pressed) {
-        pbs.frameUp = frame
+        pbs.timeUp = time
       }
       pbs.pressed = b.pressed
       pbs.value = b.value

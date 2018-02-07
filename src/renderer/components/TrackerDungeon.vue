@@ -14,7 +14,7 @@ div
         .letter -
         .letter {{activeLevel}}
       .flex(v-for="(row, r) in activeMap")
-        .flex(v-for="(cell, c) in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker, {overlay:cell.type ==='room' && overlay.map[r/2][c/2] == 'X'}]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
+        .flex(v-for="(cell, c) in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker, {overlay:overlayDungeon && cell.type ==='room' && overlay.map[r/2][c/2] == 'X'}]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
           div(v-if="cell.type==='room'" ) {{roomMarkers[cell.marker].text}}
     .flex.column.ml-10
       .level-select
@@ -26,7 +26,7 @@ div
       .overlay-select.mt-10
         div Lvl
         .flex(v-for="level in levelIds")
-          .btn.btn-xs.mh-2(@click="overlayDungeon = level" :class="{active:level == overlayDungeon}") {{level}}
+          .btn.btn-xs.mh-2(@click="setOverlay(level)" :class="{active:level == overlayDungeon}") {{level}}
 </template>
 
 <script>
@@ -52,6 +52,7 @@ export default {
       maps: state => state.Main.tracker.maps
     }),
     overlay () {
+      if (!this.overlayDungeon) return []
       let q = this.overlayQuest2 ? this.dungeons.quest2 : this.dungeons.quest1
       return q[this.overlayDungeon]
     }
@@ -59,11 +60,18 @@ export default {
   data () {
     return {
       selected,
-      overlayDungeon: 1,
+      overlayDungeon: 0,
       overlayQuest2: false
     }
   },
   methods: {
+    setOverlay (level) {
+      if (this.overlayDungeon == level) {
+        this.overlayDungeon = 0
+      } else {
+        this.overlayDungeon = level
+      }
+    },
     cycleWall (wall, amount) {
       let keys = Object.keys(this.wallMarkers)
       let next = keys.indexOf(wall.marker) + amount

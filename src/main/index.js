@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron'
+import windowStateKeeper from 'electron-window-state'
 
 /**
  * Set `__static` path to static files in production
@@ -19,15 +20,26 @@ function createWindow () {
   /**
    * Initial window options
    */
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 715,
+    defaultHeight: 540
+  });
+
   mainWindow = new BrowserWindow({
-    height: 540,
-    useContentSize: true,
-    width: 715,
+    //useContentSize: true,
+    'x': mainWindowState.x,
+    'y': mainWindowState.y,
+    height: mainWindowState.height,
+    width: mainWindowState.width,
     frame: false,
+    minWidth: 555,
+    minHeight: 440
   })
+  
+  mainWindowState.manage(mainWindow);
+  
   mainWindow.setMenu(null)
   mainWindow.loadURL(winURL)
-
   mainWindow.on('closed', () => {
     mainWindow = null
   })

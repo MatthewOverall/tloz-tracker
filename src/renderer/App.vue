@@ -1,7 +1,8 @@
 <template>
   <div id="app" class="theme-dark">
     <div class="tilebar">
-      <div class="logo">Zelda Tracker</div>
+      <div class="tilebar-spacer-left"></div>
+      <div class="logo">TLOZ-TRACKER</div>
       <div class="tilebar-spacer"></div>
       <div class="tilebar-btn minimize pt-3" @click="minimize">―</div>
       <div class="tilebar-btn maximize" @click="minimize">☐</div>
@@ -33,13 +34,15 @@ export default {
 
 <style lang="sass">
 @import './assets/styles/main.sass'
-@import url('https://fonts.googleapis.com/css?family=Rubik:400,700|VT323')
+@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono|VT323')
 
 html
   overflow: hidden
 body
   font-family: 'VT323', monospace
   font-size: 16px
+  //font-family: 'Share Tech Mono', monospace
+  //font-size: 12px
   &.theme-dark
     background-color: #2e2e2e
     color: white
@@ -61,14 +64,21 @@ body
   -webkit-user-select: none
   -webkit-app-region: drag
   border-bottom: 1px solid black
-  .logo
-    padding-left: 5px
+  &:after
+    content: ''
+    position: fixed
+    height: 5px
+    top: 0
+    left: 0
+    right: 0
     -webkit-app-region: no-drag
+  .logo
     display: flex
     align-items: center
   .tilebar-spacer
     flex: 1
-    height: 6px
+  .tilebar-spacer-left
+    width: 10px
     -webkit-app-region: no-drag
   .tilebar-btn
     -webkit-app-region: no-drag

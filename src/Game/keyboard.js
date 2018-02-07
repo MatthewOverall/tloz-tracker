@@ -1,12 +1,12 @@
 let queue = []
 
 const state = {
-  frame: 0,
+  time: 0,
   keys: {},
 }
 
-function updateState (frame) {
-  state.frame = frame
+function updateState (time) {
+  state.time = time
   while (queue.length > 0) {
     let e = queue.shift()
     let key = state.keys[e.code] = (state.keys[e.code] || {
@@ -16,12 +16,12 @@ function updateState (frame) {
     })
     if (e.type === 'keydown') {
       key.pressed = true
-      key.frame = 0
-      key.frameDown = key.frameDown || frame
+      key.time = 0
+      key.timeDown = key.timeDown || time
     } else {
-      key.frameUp = frame
+      key.timeUp = time
       key.pressed = false
-      key.frameDown = 0
+      key.timeDown = 0
     }
   }
 }

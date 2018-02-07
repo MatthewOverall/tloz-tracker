@@ -122,7 +122,7 @@ export default {
       color: white
       text-shadow: 2px 1px 0px #282828
   .heart
-    font-size: 1.8em
+    font-size: 28px
     position: relative
     height: 28px
     &.on

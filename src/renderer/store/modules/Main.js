@@ -130,7 +130,6 @@ const getters = {
         if (state.markers.overworld[key].group === group) {
           grouped[key] = state.markers.overworld[key]
         }
-      
     }
     return grouped
   },

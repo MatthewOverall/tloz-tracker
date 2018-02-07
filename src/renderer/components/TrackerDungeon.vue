@@ -13,12 +13,20 @@ div
         .letter L
         .letter -
         .letter {{activeLevel}}
-      .flex(v-for="row in activeMap")
-        .flex(v-for="cell in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
-          div(v-if="cell.type==='room'") {{roomMarkers[cell.marker].text}}
-    .level-select
-      .flex(v-for="level in levelIds")
-        .btn.mt-5(@click="selectLevel(level)" :class="{active:level == activeLevel}") level-{{level}}
+      .flex(v-for="(row, r) in activeMap")
+        .flex(v-for="(cell, c) in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker, {overlay:cell.type ==='room' && overlay.map[r/2][c/2] == 'X'}]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
+          div(v-if="cell.type==='room'" ) {{roomMarkers[cell.marker].text}}
+    .flex.column.ml-10
+      .level-select
+        .flex(v-for="level in levelIds")
+          .btn.mt-5(@click="selectLevel(level)" :class="{active:level == activeLevel}") level-{{level}}
+      .flex.mt-10 
+        span Overlay Dungeon
+        .btn.btn-xs.ml-5(@click="overlayQuest2 = !overlayQuest2" :class="{active:overlayQuest2}") 2nd Quest
+      .overlay-select.mt-10
+        div Lvl
+        .flex(v-for="level in levelIds")
+          .btn.btn-xs.mh-2(@click="overlayDungeon = level" :class="{active:level == overlayDungeon}") {{level}}
 </template>
 
 <script>
@@ -43,10 +51,16 @@ export default {
       activeLevel: state => state.Main.tracker.activeLevel,
       maps: state => state.Main.tracker.maps
     }),
+    overlay () {
+      let q = this.overlayQuest2 ? this.dungeons.quest2 : this.dungeons.quest1
+      return q[this.overlayDungeon]
+    }
   },
   data () {
     return {
-      selected
+      selected,
+      overlayDungeon: 1,
+      overlayQuest2: false
     }
   },
   methods: {
@@ -182,8 +196,9 @@ $borderColor: grey
   background-color: white
   &.default
     background-color: transparent
+  &.overlay
+    background-color: #033859
   &.selected
-    //background-color: white
     border: 2px solid magenta
   &.checked
     background-color: white
@@ -193,6 +208,13 @@ $borderColor: grey
     background-color: green
   &.triforce
     background-color: orange
+  &.stair-1,
+  &.stair-2,
+  &.stair-3,
+  &.stair-4,
+  &.stair-5,
+  &.stair-6,
+    background-color: white
 .spacer
   height: $min
   width: $min
@@ -212,6 +234,9 @@ $borderColor: grey
 .level-select
   display: flex
   flex-direction: column
-  margin-left: 10px
+
+.overlay-select
+  display: flex
+  flex-wrap: wrap
 </style>
 

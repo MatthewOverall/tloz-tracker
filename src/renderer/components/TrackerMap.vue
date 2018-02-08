@@ -23,13 +23,13 @@
     .spacer
     .flex.column
       .btn.btn-sm(@click="changeQuest" :class="{active:$store.state.Main.tracker.activeQuest === 2}") 2nd Quest
-      .btn.btn-sm.mt-5(@click="mixQuest" :class="{active:$store.state.Main.tracker.mixQuest}") Mix Quest      
+      .btn.btn-sm.mt-5(@click="mixQuest" :class="{active:$store.state.Main.tracker.mixQuest}") Mix Quest
     .spacer
     .flex.column
       .btn.btn-sm(@click="showArea = !showArea" :class="{active:showArea}") AREA
       router-link.btn.btn-sm.mt-5(to="input") CONFIG
       router-link.btn.btn-sm.mt-5(to="dungeon") DUNGEONS
-      router-link.btn.btn-sm.mt-5(to="gamepad") Gamepad
+      //- router-link.btn.btn-sm.mt-5(to="gamepad") Gamepad
 </template>
 
 <script>

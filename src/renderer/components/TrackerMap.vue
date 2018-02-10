@@ -29,7 +29,7 @@
       .btn.btn-sm(@click="showArea = !showArea" :class="{active:showArea}") AREA
       router-link.btn.btn-sm.mt-5(to="input") CONFIG
       router-link.btn.btn-sm.mt-5(to="dungeon") DUNGEONS
-      //- router-link.btn.btn-sm.mt-5(to="gamepad") Gamepad
+      router-link.btn.btn-sm.mt-5(to="gamepad") Gamepad
 </template>
 
 <script>
@@ -38,7 +38,7 @@ import { mapGetters } from 'vuex'
 import { createWriteStream } from 'fs';
 import TileMarker from './TileMarker'
 import TrackerItems from './TrackerItems'
-
+//import GamepadViewer from '../../Game/GamepadViewer'
 
 
 export default {

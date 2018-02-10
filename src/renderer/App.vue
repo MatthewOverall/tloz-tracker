@@ -9,12 +9,16 @@
       <div class="tilebar-btn close " @click="minimize">✕</div>
     </div>
     <router-view class="app-view"></router-view>
+    <gamepad-viewer></gamepad-viewer>
   </div>
 </template>
 
 <script>
+import GamepadViewer from '../Game/GamepadViewer'
+
 export default {
   name: 'tloz-tracker',
+  components: { GamepadViewer },
   mounted () {
   },
   methods: {
@@ -36,6 +40,12 @@ export default {
 @import './assets/styles/main.sass'
 @import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono|VT323')
 
+.gamepad
+  position: fixed
+  bottom: 0
+  right: 10px
+  transform-origin: bottom right
+  z-index: 1
 html
   overflow: hidden
 body
@@ -56,6 +66,7 @@ body
 .app-view
   overflow-y: auto
   height: calc(100vh - 21px)
+
 .tilebar
   height: 20px
   display: flex

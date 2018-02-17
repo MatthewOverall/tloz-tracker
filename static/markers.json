@@ -2,39 +2,48 @@
   "overworld": {
     "level-1": {
       "group": "dungeon",
-      "text": "L1"
+      "text": "L1",
+      "level": 1
     },
     "level-2": {
       "group": "dungeon",
-      "text": "L2"
+      "text": "L2",
+      "level": 2
     },
     "level-3": {
       "group": "dungeon",
-      "text": "L3"
+      "text": "L3",
+      "level": 3
     },
     "level-4": {
       "group": "dungeon",
-      "text": "L4"
+      "text": "L4",
+      "level": 4
     },
     "level-5": {
       "group": "dungeon",
-      "text": "L5"
+      "text": "L5",
+      "level": 5
     },
     "level-6": {
       "group": "dungeon",
-      "text": "L6"
+      "text": "L6",
+      "level": 6
     },
     "level-7": {
       "group": "dungeon",
-      "text": "L7"
+      "text": "L7",
+      "level": 7
     },
     "level-8": {
       "group": "dungeon",
-      "text": "L8"
+      "text": "L8",
+      "level": 8
     },
     "level-9": {
       "group": "dungeon",
-      "text": "L9"
+      "text": "L9",
+      "level": 9
     },
     "shop-arrow": {
       "group": "shop",

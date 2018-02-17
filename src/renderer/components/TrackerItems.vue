@@ -7,7 +7,7 @@
   //-     .heart(@click="toggle(l.heart)" :class="{on:l.heart.collected}")
   //-   .item-box(v-for="item in l.items" @click="cycleItem(item)" @click.right.prevent="cycleItem(item,-1)")
   //-     .item(:class="items[item.id]")
-  .level(v-for="(d, n) in dungeons['quest1']")
+  .level(v-for="(d, n) in dungeons['quest1']" :class="[{active:n == activeLevel}, 'level-'+n]")
     .triforce-heart(:class="'level-'+n")
       .triangle(@click="toggleTriforce(n)" :class="{on:levels[n].triforce.collected}")
         | {{n}}
@@ -39,6 +39,7 @@ export default {
   computed: {
     ...mapState({
       levels: state => state.Main.tracker.levels,
+      activeLevel: state => state.Main.tracker.activeLevel,
       items: state => state.Main.items,
       oi: state => state.Main.tracker.overworldItems,
       inputmap: state => state.Input.inputmap,

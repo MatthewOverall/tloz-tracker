@@ -3,7 +3,7 @@ div
   router-link.esc.flex.column.align-center(to="/")
     .fa.fa-times-circle-o.fa-lg
     div ESC
-  .flex
+  .flex.dungeon-tracker
     .flex.column
       .flex.dungeon-map
         .letter L
@@ -17,10 +17,13 @@ div
         .flex(v-for="(cell, c) in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker, {overlay:overlayDungeon && cell.type ==='room' && overlay.map[r/2][c/2] == 'X'}]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
           div(v-if="cell.type==='room'" ) {{roomMarkers[cell.marker].text}}
     .flex.column.ml-10
-      .level-select
-        .flex(v-for="level in levelIds")
-          .btn.mt-5(@click="selectLevel(level)" :class="{active:level == activeLevel}") level-{{level}}
-      .flex.mt-10 
+      .flex.row
+        .flex.level-select
+            .flex(v-for="level in levelIds")
+              .btn.mt-5(@click="selectLevel(level)" :class="{active:level == activeLevel}") level-{{level}}
+        .flex.tracker-items.ml-20.mt-5
+            tracker-items
+      .flex.mt-10
         span Overlay Dungeon
         .btn.btn-xs.ml-5(@click="overlayQuest2 = !overlayQuest2" :class="{active:overlayQuest2}") 2nd Quest
       .overlay-select.mt-10
@@ -32,9 +35,11 @@ div
 <script>
 import { mapGetters } from 'vuex'
 import { mapState } from 'vuex'
+import TrackerItems from './TrackerItems'
 
 let selected = { r: 14, c: 12 }
 export default {
+  components: { TrackerItems },
   computed: {
     ...mapGetters([
       'isBindingUp',
@@ -172,6 +177,16 @@ export default {
 }
 </script>
 
+<style lang="sass">
+.dungeon-tracker .tracker-items .overworld-items,
+.dungeon-tracker .tracker-items .level
+  display: none
+  &.active
+    display: inherit
+.dungeon-tracker .tracker-items .triangle
+  color: transparent !important
+  text-shadow: none !important
+</style>
 <style lang="sass" scoped="true">
 $min: 2.3vh
 $max: 8.5vh

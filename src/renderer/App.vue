@@ -9,16 +9,16 @@
       <div class="tilebar-btn close " @click="minimize">✕</div>
     </div>
     <router-view class="app-view"></router-view>
-    <gamepad-viewer></gamepad-viewer>
+    <!-- <gamepad-viewer></gamepad-viewer> -->
   </div>
 </template>
 
 <script>
-import GamepadViewer from '../Game/GamepadViewer'
+// import GamepadViewer from '../Game/GamepadViewer'
 
 export default {
   name: 'tloz-tracker',
-  components: { GamepadViewer },
+  // components: { GamepadViewer },
   mounted () {
   },
   methods: {
@@ -43,7 +43,7 @@ export default {
 .gamepad
   position: fixed
   bottom: 0
-  right: 10px
+  right: 30px
   transform-origin: bottom right
   z-index: 1
 html

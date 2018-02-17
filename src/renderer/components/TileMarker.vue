@@ -1,7 +1,7 @@
 <template lang="pug">
 .marker
   .tile-icon(v-if="tile && tileMarker && tileMarker.marker === 'default'" v-show="tile.type" :class="tile.type")
-  .marker-icon(v-if="tileMarker.marker !== 'default'" :class="[marker.group, tileMarker.marker]")
+  .marker-icon(v-if="tileMarker.marker !== 'default'" :class="[marker.group, tileMarker.marker, markerState]")
     .marker-text {{marker.text}}
 </template>
 
@@ -18,11 +18,23 @@ export default {
     marker () {
       return this.markers[this.tileMarker.marker]
     },
+    markerState () {
+      let currentMarker = this.markers[this.tileMarker.marker];
+      switch(currentMarker.group) {
+        case 'dungeon':
+          if (this.levels[currentMarker.level].triforce.collected) {
+            return 'triforce-collected'
+          }
+        break
+      }
+      return ''
+    },
     tileMarker () {
       return this.tileMarkers[this.tileId]
     },
     ...mapState({
       markers: state => state.Main.markers.overworld,
+      levels: state => state.Main.tracker.levels,
       tileMarkers: state => state.Main.tracker.overworld
     }),
     ...mapGetters([
@@ -53,17 +65,21 @@ export default {
     align-items: center
     border: 2px solid black
     box-shadow: 2px 2px 4px black
+    .marker-text
+      color: white
+      font-size: 4vw
     &.clear
       height: 60%
       width: 40%
       background-color: gray
       opacity: .4
-    .marker-text
-      color: white
-      font-size: 4vw
     &.dungeon
       border-color: rgba(0, 0, 0, 1)
       background-color: red
+      &.triforce-collected
+        background-color: rgba(175, 175, 175, 0.75)
+        .marker-text
+          color: rgba(150, 0, 0, 1)
     &.misc
       height: 90%
       width: 90%

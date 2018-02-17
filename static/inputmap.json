@@ -30,7 +30,7 @@
   "shop-food": ["KeyF"],
   "shop-candle": ["KeyC"],
   "shop-ring": ["KeyZ"],
-  "misc-potion": ["Keyp"],
+  "misc-potion": ["KeyP"],
   "misc-gamble": ["KeyG"],
   "misc-hints": ["KeyH"],
   "misc-sword": ["KeyS"],

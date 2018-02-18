@@ -1,14 +1,6 @@
-import inputmap from '../../../../static/inputmap.json'
 import gameState from '../../../Game'
 
-let storedInput = localStorage.getItem('inputmap')
-if (storedInput) {
-  storedInput = JSON.parse(storedInput)
-} else {
-  storedInput = inputmap
-}
-storedInput = Object.assign(inputmap, storedInput)
-
+let storedInput = getStoredInput()
 
 const state = {
   inputmap: storedInput,
@@ -35,4 +27,10 @@ export default {
   state,
   mutations,
   getters
+}
+
+function getStoredInput() {
+  let inputmap = require('../../../../static/inputmap.json')
+  let storedInput = localStorage.getItem('inputmap') || {}
+  return Object.assign(inputmap, storedInput)
 }

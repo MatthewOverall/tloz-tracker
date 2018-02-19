@@ -134,7 +134,8 @@ export default {
         this.clearMarker()
       } else {
         Object.keys(this.markers).forEach(m => {
-          if (this.isBindingDown('overworld', m)) {
+          let type = m.startsWith('level-') ? 'global' : 'overworld'
+          if (this.isBindingDown(type, m)) {
             this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: m })
           }
         })

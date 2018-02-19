@@ -94,7 +94,16 @@ function getGlobalInputs() {
     "selector-up",
     "selector-down",
     "selector-left",
-    "selector-right"
+    "selector-right",
+    "level-1",
+    "level-2",
+    "level-3",
+    "level-4",
+    "level-5",
+    "level-6",
+    "level-7",
+    "level-8",
+    "level-9"
   ]
 }
 
@@ -104,15 +113,6 @@ function getOverworldInputs() {
     "cycle-shop",
     "cycle-misc",
     "cycle-warp",
-    "level-1",
-    "level-2",
-    "level-3",
-    "level-4",
-    "level-5",
-    "level-6",
-    "level-7",
-    "level-8",
-    "level-9",
     "shop-arrow",
     "shop-bomb",
     "shop-key",

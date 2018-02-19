@@ -112,7 +112,7 @@ export default {
     handleMarkerInput () {
       let { r, c } = this.selected
       let room = this.getCell(r, c)
-      if (this.isBindingDown('cycle-wall-left')) {
+      if (this.isBindingDown('dungeon', 'cycle-wall-left')) {
         let wall = this.getCell(r, c - 1)
         if (wall) {
           this.cycleWall(wall, 1)
@@ -121,7 +121,7 @@ export default {
           }
         }
       }
-      if (this.isBindingDown('cycle-wall-right')) {
+      if (this.isBindingDown('dungeon', 'cycle-wall-right')) {
         let wall = this.getCell(r, c + 1)
         if (wall) {
           this.cycleWall(wall, 1)
@@ -130,7 +130,7 @@ export default {
           }
         }
       }
-      if (this.isBindingDown('cycle-wall-up')) {
+      if (this.isBindingDown('dungeon', 'cycle-wall-up')) {
         let wall = this.getCell(r - 1, c)
         if (wall) {
           this.cycleWall(wall, 1)
@@ -139,7 +139,7 @@ export default {
           }
         }
       }
-      if (this.isBindingDown('cycle-wall-down')) {
+      if (this.isBindingDown('dungeon', 'cycle-wall-down')) {
         let wall = this.getCell(r + 1, c)
         if (wall) {
           this.cycleWall(wall, 1)
@@ -148,25 +148,25 @@ export default {
           }
         }
       }
-      if (this.isBindingDown('cycle-room-up')) {
+      if (this.isBindingDown('dungeon', 'cycle-room-up')) {
         let room = this.getCell(r, c)
         this.cycleRoom(room, 1)
-      } else if (this.isBindingDown('cycle-room-down')) {
+      } else if (this.isBindingDown('dungeon', 'cycle-room-down')) {
         let room = this.getCell(r, c)
         this.cycleRoom(room, -1)
       }
     },
     handleSelectorMovement () {
-      if (this.isBindingDown('selector-up')) {
+      if (this.isBindingDown('global', 'selector-up')) {
         this.selected.r = Math.max(0, this.selected.r - 2)
       }
-      if (this.isBindingDown('selector-down')) {
+      if (this.isBindingDown('global', 'selector-down')) {
         this.selected.r = Math.min(14, this.selected.r + 2)
       }
-      if (this.isBindingDown('selector-left')) {
+      if (this.isBindingDown('global', 'selector-left')) {
         this.selected.c = Math.max(0, this.selected.c - 2)
       }
-      if (this.isBindingDown('selector-right')) {
+      if (this.isBindingDown('global', 'selector-right')) {
         this.selected.c = Math.min(14, this.selected.c + 2)
       }
     },

@@ -5,19 +5,49 @@
     router-link.esc.flex.column.align-center(to="/")
       .fa.fa-times-circle-o.fa-lg
       div ESC
-    table.binding-table.mb-20
-      thead
-        tr
-          th Input
-          th Binding #1
-          th Binding #2
-          th Binding #3
-      tbody
-        tr(v-for="(input, k) in inputmap")
-          td {{k}}
-          td(v-on:dblclick="mapInput(k, 0)") {{input[0]}}
-          td(v-on:dblclick="mapInput(k, 1)") {{input[1]}}
-          td(v-on:dblclick="mapInput(k, 2)") {{input[2]}}
+  tabs
+    tab(name="Global")
+      table.binding-table.mb-20
+        thead
+          tr
+            th Input
+            th Binding #1
+            th Binding #2
+            th Binding #3
+        tbody
+          tr(v-for="(input, k) in inputmap['global']")
+            td {{k}}
+            td(v-on:dblclick="mapInput('global', k, 0)") {{input[0]}}
+            td(v-on:dblclick="mapInput('global', k, 1)") {{input[1]}}
+            td(v-on:dblclick="mapInput('global', k, 2)") {{input[2]}}
+    tab(name="Overworld")
+      table.binding-table.mb-20
+        thead
+          tr
+            th Input
+            th Binding #1
+            th Binding #2
+            th Binding #3
+        tbody
+          tr(v-for="(input, k) in inputmap['overworld']")
+            td {{k}}
+            td(v-on:dblclick="mapInput('overworld', k, 0)") {{input[0]}}
+            td(v-on:dblclick="mapInput('overworld', k, 1)") {{input[1]}}
+            td(v-on:dblclick="mapInput('overworld', k, 2)") {{input[2]}}
+    tab(name="Dungeon")
+      table.binding-table.mb-20
+        thead
+          tr
+            th Input
+            th Binding #1
+            th Binding #2
+            th Binding #3
+        tbody
+          tr(v-for="(input, k) in inputmap['dungeon']")
+            td {{k}}
+            td(v-on:dblclick="mapInput('dungeon', k, 0)") {{input[0]}}
+            td(v-on:dblclick="mapInput('dungeon', k, 1)") {{input[1]}}
+            td(v-on:dblclick="mapInput('dungeon', k, 2)") {{input[2]}}
   .binding-overlay(v-if="isBinding")
     p Press any key, esc to cancel, backspace to clear
     p ({{pressedKeys.join('+')}})
@@ -49,8 +79,9 @@ export default {
     }
   },
   methods: {
-    mapInput (name, index) {
+    mapInput (type, name, index) {
       this.isBinding = true
+      this.bindingType = type
       this.bindingInputName = name
       this.bindingIndex = index
     },
@@ -66,12 +97,12 @@ export default {
           return
         }
         let pressed = this.$game.input.getPressedKeys()
-        
+
         pressed.forEach(k => {
           if (!this.pressedKeys.includes(k.code)) {
             this.pressedKeys.push(k.code)
           }
-        });
+        })
         if (this.pressedKeys.some(x => this.$game.input.isKeyUp(x))) {
           this.assignCurrentInput()
         }
@@ -84,6 +115,7 @@ export default {
     },
     assignCurrentInput () {
       this.$store.commit('ASSIGN_INPUT', {
+        type: this.bindingType,
         name: this.bindingInputName,
         index: this.bindingIndex,
         input: this.pressedKeys.join("+")
@@ -95,6 +127,61 @@ export default {
 }
 </script>
 
+<style lang="sass">
+.tabs-component
+  margin: 10px 0
+
+.tabs-component-tabs
+  border: solid 1px #ddd
+  border-radius: 6px
+  margin-bottom: 5px
+
+@media (min-width: 700px)
+  .tabs-component-tabs
+    border: 0
+    align-items: stretch
+    display: flex
+    justify-content: flex-start
+    margin-bottom: -1px
+
+.tabs-component-tab
+  color: #999
+  font-size: 16px
+  font-weight: 600
+  margin-right: 0
+  list-style: none
+  padding: 0 5px 0 5px
+
+.tabs-component-tab:not(:last-child)
+  border-bottom: dotted 1px #ddd
+
+.tabs-component-tab:hover
+  color: #666
+
+.tabs-component-tab.is-active
+  color: #000
+
+.tabs-component-tab.is-disabled *
+  color: #cdcdcd
+  cursor: not-allowed !important
+
+@media (min-width: 700px)
+  .tabs-component-tab
+    background-color: #fff
+    border: solid 1px #ddd
+    border-radius: 3px 3px 0 0
+    margin-right: .5em
+    transform: translateY(2px)
+    transition: transform .3s ease
+
+  .tabs-component-tab.is-active
+    border-bottom: solid 1px #fff
+    z-index: 2
+    transform: translateY(0)
+
+  .tabs-component-panels
+    padding: 10px 0
+</style>
 <style lang="sass" scoped>
 .config-screen
   font-family: 'Rubik', sans-serif
@@ -106,12 +193,12 @@ export default {
   right: 25px
   top: 30px
 
-table 
+table
   border-collapse: collapse
   width: 95%
   margin: auto
 
-th, td 
+th, td
   padding: 0.25rem
   text-align: left
   border: 1px solid black
@@ -119,7 +206,7 @@ th, td
 td:hover
   background-color: #455371
 
-tbody tr:nth-child(odd) 
+tbody tr:nth-child(odd)
   background: #3f3f3f
 
 
@@ -156,7 +243,7 @@ tbody tr:nth-child(odd)
   display: flex
   align-items: center
   justify-content: center
-  
+
   .marker-icon
     height: 100%
     width: 100%

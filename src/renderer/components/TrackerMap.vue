@@ -104,37 +104,37 @@ export default {
       this.handleMarkerInput()
     },
     handleSelectorMovement () {
-      if (this.isBindingDown('selector-up')) {
+      if (this.isBindingDown('global', 'selector-up')) {
         this.moveSelector(-16)
       }
-      if (this.isBindingDown('selector-down')) {
+      if (this.isBindingDown('global', 'selector-down')) {
         this.moveSelector(16)
       }
-      if (this.isBindingDown('selector-left')) {
+      if (this.isBindingDown('global', 'selector-left')) {
         this.moveSelector(-1)
       }
-      if (this.isBindingDown('selector-right')) {
+      if (this.isBindingDown('global', 'selector-right')) {
         this.moveSelector(1)
       }
     },
     handleMarkerInput () {
-      if (this.isBindingDown('cycle-level')) {
+      if (this.isBindingDown('overworld', 'cycle-level')) {
         this.cycleGroup('dungeon')
       }
-      if (this.isBindingDown('cycle-shop')) {
+      if (this.isBindingDown('overworld', 'cycle-shop')) {
         this.cycleGroup('shop')
       }
-      if (this.isBindingDown('cycle-misc')) {
+      if (this.isBindingDown('overworld', 'cycle-misc')) {
         this.cycleGroup('misc')
       }
-      if (this.isBindingDown('cycle-warp')) {
+      if (this.isBindingDown('overworld', 'cycle-warp')) {
         this.cycleGroup('warp')
       }
-      if (this.isBindingDown('clear-marker')) {
+      if (this.isBindingDown('overworld', 'clear-marker')) {
         this.clearMarker()
       } else {
         Object.keys(this.markers).forEach(m => {
-          if (this.isBindingDown(m)) {
+          if (this.isBindingDown('overworld', m)) {
             this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: m })
           }
         })

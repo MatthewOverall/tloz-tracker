@@ -128,6 +128,7 @@ export default {
 </script>
 
 <style lang="sass">
+/* This CSS is to handle tabbed panels, should be moved elsewhere
 .tabs-component
   margin: 10px 0
 
@@ -136,7 +137,7 @@ export default {
   border-radius: 6px
   margin-bottom: 5px
 
-@media (min-width: 700px)
+@media (min-width: 400px)
   .tabs-component-tabs
     border: 0
     align-items: stretch
@@ -151,6 +152,7 @@ export default {
   margin-right: 0
   list-style: none
   padding: 0 5px 0 5px
+  background-color: #fff
 
 .tabs-component-tab:not(:last-child)
   border-bottom: dotted 1px #ddd
@@ -165,7 +167,7 @@ export default {
   color: #cdcdcd
   cursor: not-allowed !important
 
-@media (min-width: 700px)
+@media (min-width: 400px)
   .tabs-component-tab
     background-color: #fff
     border: solid 1px #ddd

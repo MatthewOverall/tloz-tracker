@@ -19,15 +19,15 @@ export default {
       return this.markers[this.tileMarker.marker]
     },
     markerState () {
-      let currentMarker = this.markers[this.tileMarker.marker];
-      switch(currentMarker.group) {
+      let ms = []
+      switch(this.marker.group) {
         case 'dungeon':
-          if (this.levels[currentMarker.level].triforce.collected) {
-            return 'triforce-collected'
+          if (this.levels[this.marker.level] && this.levels[this.marker.level].triforce.collected) {
+            ms.push('triforce-collected')
           }
         break
       }
-      return ''
+      return ms
     },
     tileMarker () {
       return this.tileMarkers[this.tileId]
@@ -38,7 +38,8 @@ export default {
       tileMarkers: state => state.Main.tracker.overworld
     }),
     ...mapGetters([
-      'tiles'
+      'tiles',
+      'discoveredDungeons'
     ])
   },
   data () {

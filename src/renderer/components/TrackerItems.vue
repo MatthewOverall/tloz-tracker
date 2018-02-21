@@ -1,13 +1,6 @@
 <template lang="pug">
 .flex
-  //- .level(v-for="l in levels")
-  //-   .triforce-heart(:class="'level-'+l.level")
-  //-     .triangle(@click="toggle(l.triforce)" :class="{on:l.triforce.collected}")
-  //-       | {{l.level}}
-  //-     .heart(@click="toggle(l.heart)" :class="{on:l.heart.collected}")
-  //-   .item-box(v-for="item in l.items" @click="cycleItem(item)" @click.right.prevent="cycleItem(item,-1)")
-  //-     .item(:class="items[item.id]")
-  .level(v-for="(d, n) in dungeons['quest1']" :class="[{active:n == activeLevel}, 'level-'+n]")
+  .level(v-for="(d, n) in dungeons['quest1']" :class="[{active:n == activeLevel}, 'level-'+n, {discovered: discoveredDungeons.includes(n)}]")
     .triforce-heart(:class="'level-'+n")
       .triangle(@click="toggleTriforce(n)" :class="{on:levels[n].triforce.collected}")
         | {{n}}
@@ -49,6 +42,7 @@ export default {
       'isBindingUp',
       'isBindingDown',
       'isBindingPressed',
+      'discoveredDungeons'
     ])
   },
   data () {
@@ -105,6 +99,9 @@ export default {
         left: -7px
         height: 0
         width: 0
+  .discovered
+    .triangle
+      background-color: #fd6e6e
   .triangle
     clip-path: polygon(50% 0, 0 100%, 100% 100%)
     background-color: grey

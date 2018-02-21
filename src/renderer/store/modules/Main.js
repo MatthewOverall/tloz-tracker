@@ -133,6 +133,12 @@ const getters = {
     }
     return grouped
   },
+  activeMarkers(state){
+    return Object.values(state.tracker.overworld).map(x => x.marker)
+  },
+  discoveredDungeons(state, getters){
+    return getters.activeMarkers.filter(x => x.startsWith('level')).map(x => x.substring(6))
+  }
 }
 
 

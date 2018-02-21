@@ -109,6 +109,7 @@ function getGlobalInputs() {
 
 function getOverworldInputs() {
   return [
+    "clear-marker",
     "cycle-level",
     "cycle-shop",
     "cycle-misc",

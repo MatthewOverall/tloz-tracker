@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import {Tabs, Tab} from 'vue-tabs-component';
 import axios from 'axios'
 import 'font-awesome/css/font-awesome'
 import App from './App'
@@ -11,6 +12,8 @@ Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 const unsync = sync(store, router)
 Vue.use(VueGame)
+Vue.component('tabs', Tabs);
+Vue.component('tab', Tab);
 /* eslint-disable no-new */
 let v = new Vue({
   components: { App },

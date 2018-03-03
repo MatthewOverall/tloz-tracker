@@ -165,6 +165,8 @@ export default {
   .map
     display: flex
     flex-direction: column
+    background-color: rgba(76, 76, 76, 0.77)
+    box-shadow: inset 0px 5px 20px 3px black, 3px 4px 20px 3px black
     &.show-area
       .cell-cover
         &.death-mountain

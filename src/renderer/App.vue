@@ -53,6 +53,9 @@ body
   font-size: 16px
   //font-family: 'Share Tech Mono', monospace
   //font-size: 12px
+  background-image: url('../../static/map/backdrop.jpeg')
+  background-size: cover
+  background-repeat: no-repeat
   &.theme-dark
     background-color: #2e2e2e
     color: white

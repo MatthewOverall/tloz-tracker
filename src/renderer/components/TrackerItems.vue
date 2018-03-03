@@ -81,12 +81,16 @@ export default {
 </script>
 
 <style lang="sass" scoped="true">
+  $item-size: 36px
+  $heart-size: 36px
+  $triangle-font-size: 1.8em
   .spacer
     flex: 1
   .level
     display: flex
     flex-direction: column
     margin: 0 2px
+    align-items: center
   .triforce-heart
     display: flex
     flex-direction: column
@@ -104,14 +108,14 @@ export default {
       background-color: #fd6e6e
   .triangle
     clip-path: polygon(50% 0, 0 100%, 100% 100%)
-    background-color: grey
-    width: 28px
-    height: 26px
+    background-color: #dcccb6
+    width: $heart-size
+    height: $heart-size - 2px
     display: flex
     flex-direction: column-reverse
     align-items: center
     color: #2e2e2e
-    font-size: 1.5em
+    font-size: $triangle-font-size
     line-height: .8em
     font-weight: bold
     z-index: 1
@@ -120,9 +124,9 @@ export default {
       color: white
       text-shadow: 2px 1px 0px #282828
   .heart
-    font-size: 28px
+    font-size: $heart-size
     position: relative
-    height: 28px
+    height: $heart-size
     &.on
       &:before
         color: red
@@ -136,15 +140,16 @@ export default {
       position: absolute
       opacity: 0
     &:after
-      color: grey
+      color: #dcccb6
       content: "\F08A"
       font-family: FontAwesome
       position: absolute
   .item-box
     margin-top: 2px
-    border: 2px solid grey
-    height: 28px
-    width: 28px
+    border: 2px solid #dcccb6
+    height: $item-size
+    width: $item-size
+    background-color: #1f202c
     border-radius: 4px
     display: flex
     align-items: center
@@ -157,41 +162,40 @@ export default {
     color: white
     font-size: 1.5em
     margin: 0 5px
+    text-shadow: 2px 1px black
   .item
-    height: 20px
-    width: 20px
-    background-image: url('../../../static/items/sprites-items.gif')
-    background-repeat: no-repeat
-    background-position: 100px 100px
+    height: 100%
+    width: 100%
+    background-size: cover
     &.boomerang
-       background-position: -278px 1px
+      background-image: url('../../../static/items/loz-boomerang.png')
     &.bow
-       background-position: -317px 2px
+      background-image: url('../../../static/items/loz-bow.png')
     &.blue-boomerang
-       background-position: -119px -77px
+      background-image: url('../../../static/items/loz-magical-boomerang.png')
     &.raft
-       background-position: -318px -78px
+      background-image: url('../../../static/items/loz-raft.png')
     &.stepladder
-       background-position: -318px -38px
+      background-image: url('../../../static/items/loz-step-ladder.png')
     &.recorder
-       background-position: -358px -78px
+      background-image: url('../../../static/items/loz-recorder.png')
     &.wand
-       background-position: -198px -78px
+      background-image: url('../../../static/items/loz-magical-rod.png')
     &.red-candle
-       background-position: -78px -118px
+      background-image: url('../../../static/items/loz-red-candle.png')
     &.book
-       background-position: -238px 2px
+      background-image: url('../../../static/items/loz-book-of-magic.png')
     &.magic-key
-       background-position: -158px -78px
+      background-image: url('../../../static/items/loz-magical-key.png')
     &.silvers
-       background-position: -38px -118px
+      background-image: url('../../../static/items/loz-silver-arrow.png')
     &.red-ring
-       background-position: -118px -118px
+      background-image: url('../../../static/items/loz-red-ring.png')
     &.white-sword
-       background-position: -358px -118px
+      background-image: url('../../../static/items/loz-white-sword.png')
     &.power-bracelet
-       background-position: -278px -78px
+      background-image: url('../../../static/items/loz-power-bracelet.png')
     &.heart-container
-       background-position: -237px -37px
+      background-image: url('../../../static/items/loz-heart-container.png')
 </style>
 

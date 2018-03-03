@@ -4,8 +4,8 @@ div
     .fa.fa-times-circle-o.fa-lg
     div ESC
   .flex.dungeon-tracker
-    .flex.column
-      .flex.dungeon-map
+    .flex.column.dungeon-map
+      .flex
         .letter L
         .letter E
         .letter V
@@ -187,10 +187,15 @@ export default {
   color: transparent !important
   text-shadow: none !important
 </style>
+
 <style lang="sass" scoped="true">
 $min: 2.3vh
 $max: 8.5vh
 $borderColor: grey
+
+
+.dungeon-map
+  background-color: #1f202c
 
 .wall-h,
 .wall-v

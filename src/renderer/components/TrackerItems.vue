@@ -154,6 +154,7 @@ export default {
     display: flex
     align-items: center
     justify-content: center
+    box-shadow: 1px 1px black, -1px -1px black
   .overworld-item
     display: flex
     flex-direction: row-reverse

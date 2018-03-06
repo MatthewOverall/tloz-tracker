@@ -127,6 +127,7 @@ export default {
     font-size: $heart-size
     position: relative
     height: $heart-size
+    text-shadow: 1px 1px black, -1px 1px black
     &.on
       &:before
         color: red

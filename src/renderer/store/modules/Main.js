@@ -54,8 +54,8 @@ const mutations = {
     tile.marker = marker
     saveTracker()
   },
-  SET_ITEM_MARKER (state, { item, markerId }) {
-    item.id = markerId
+  SET_ITEM_MARKER (state, { item, marker }) {
+    item.id = marker
     saveTracker()
   },
   TOGGLE_COLLECTED (state, item) {
@@ -138,7 +138,18 @@ const getters = {
   },
   discoveredDungeons(state, getters){
     return getters.activeMarkers.filter(x => x.startsWith('level')).map(x => x.substring(6))
+  },
+  discoveredItems(state){
+    return[
+      state.tracker.overworldItems.armos.id,
+      state.tracker.overworldItems.coast.id,
+      state.tracker.overworldItems.whiteSword.id
+    ].concat(...Object.values(state.tracker.levels).map(x => x.items.map(a => a.id)))
+  },
+  unDiscoveredItems(state,getters){
+    return state.items.filter(x => !getters.discoveredItems.includes(x))
   }
+
 }
 
 

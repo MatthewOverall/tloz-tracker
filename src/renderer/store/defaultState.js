@@ -25,9 +25,9 @@ function getDefaultState () {
     activeQuest: 1,
     mixQuest: false,
     overworldItems: {
-      whiteSword: { id: 0 },
-      coast: { id: 0 },
-      armos: { id: 0 },
+      whiteSword: { id: '' },
+      coast: { id: '' },
+      armos: { id: '' },
     },
     maps: {},
     levels: {}
@@ -45,7 +45,7 @@ function getDefaultState () {
     state.levels[level] = {
       triforce: { collected: false },
       heart: { collected: false },
-      items: [{ id: 0 }, { id: 0 }]
+      items: [{ id: '' }, { id: '' }]
     }
 
     let map = dungeon_template.trim().split(/\r?\n/).map(x => x.split(''))

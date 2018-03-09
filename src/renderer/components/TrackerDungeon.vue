@@ -186,13 +186,16 @@ export default {
 .dungeon-tracker .tracker-items .triangle
   color: transparent !important
   text-shadow: none !important
+
+.dungeon-tracker 
+  .items-box
+    display: none !important
 </style>
 
 <style lang="sass" scoped="true">
 $min: 2.3vh
 $max: 8.5vh
 $borderColor: grey
-
 
 .dungeon-map
   background-color: #1f202c

@@ -1,34 +1,40 @@
 <template lang="pug">
-.flex
-  .level(v-for="(d, n) in dungeons['quest1']" :class="[{active:n == activeLevel}, 'level-'+n, {discovered: discoveredDungeons.includes(n)}]")
-    .triforce-heart(:class="'level-'+n")
-      .triangle(@click="toggleTriforce(n)" :class="{on:levels[n].triforce.collected}")
-        | {{n}}
-      .heart(@click="toggleHeart(n)" :class="{on:levels[n].heart.collected}")
-    .item-box(v-for="(item, i) in d.items")
-      .item(:class="items[levels[n].items[i].id]" @click="cycleItem(levels[n].items[i])" @click.right.prevent="cycleItem(levels[n].items[i],-1)")
-  .overworld-items
-    .overworld-item
-      .item-box
-        .item(:class="items[oi.armos.id]" @click="cycleItem(oi.armos)" @click.right.prevent="cycleItem(oi.armos,-1)")
-      .item-label A
-    .overworld-item
-      .item-box
-        .item(:class="items[oi.whiteSword.id]" @click="cycleItem(oi.whiteSword)" @click.right.prevent="cycleItem(oi.whiteSword,-1)")
-      .item-label WS
-    .overworld-item
-      .item-box
-        .item(:class="items[oi.coast.id]" @click="cycleItem(oi.coast)" @click.right.prevent="cycleItem(oi.coast,-1)")
-      .item-label C
+.flex.column
+  .flex
+    .level(v-for="(d, n) in dungeons['quest1']" :class="[{active:n == activeLevel}, 'level-'+n, {discovered: discoveredDungeons.includes(n)}]")
+      .triforce-heart(:class="'level-'+n")
+        .triangle(@click="toggleTriforce(n)" :class="{on:levels[n].triforce.collected}")
+          | {{n}}
+        .heart(@click="toggleHeart(n)" :class="{on:levels[n].heart.collected}")
+      .item-box(v-for="(item, i) in d.items")
+        .item(:class="levels[n].items[i].id" @click="cycleItem(levels[n].items[i])" @click.right.prevent="cycleItem(levels[n].items[i],-1)")
+    .overworld-items
+      .overworld-item
+        .item-box
+          .item(:class="oi.armos.id" @click="cycleItem(oi.armos)" @click.right.prevent="cycleItem(oi.armos,-1)")
+        .item-label A
+      .overworld-item
+        .item-box
+          .item(:class="oi.whiteSword.id" @click="cycleItem(oi.whiteSword)" @click.right.prevent="cycleItem(oi.whiteSword,-1)")
+        .item-label WS
+      .overworld-item
+        .item-box
+          .item(:class="oi.coast.id" @click="cycleItem(oi.coast)" @click.right.prevent="cycleItem(oi.coast,-1)")
+        .item-label C
+  .flex 
+    .items-box
+      .flex.column.align-center(v-for="item in items" v-if="item")
+        .item-icon(:class="{discovered: discoveredItems.includes(item)}")
+          .item(:class="item")
 </template>
 
 
 <script>
-import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'TrackerItems',
+  name: "TrackerItems",
   computed: {
     ...mapState({
       levels: state => state.Main.tracker.levels,
@@ -39,45 +45,53 @@ export default {
       dungeons: state => state.Main.dungeons
     }),
     ...mapGetters([
-      'isBindingUp',
-      'isBindingDown',
-      'isBindingPressed',
-      'discoveredDungeons'
+      "isBindingUp",
+      "isBindingDown",
+      "isBindingPressed",
+      "discoveredDungeons",
+      "discoveredItems",
+      "unDiscoveredItems"
     ])
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-  mounted () {
-  },
+  mounted() {},
   methods: {
-    toggle (item) {
-      this.$store.commit("TOGGLE_COLLECTED", item)
+    toggle(item) {
+      this.$store.commit("TOGGLE_COLLECTED", item);
     },
-    cycleItem (item, amount) {
-      let nextId = item.id + (amount || 1)
-      if (nextId >= this.items.length) nextId = 0
-      if (nextId < 0) nextId = this.items.length - 1
-      this.$store.commit("SET_ITEM_MARKER", { item: item, markerId: nextId })
+    cycleItem(item, amount) {
+      let currentId = Math.max(this.items.indexOf(item.id), 0);
+      let nextId = currentId + (amount || 1);
+      if (nextId >= this.items.length) nextId = 0;
+      if (nextId < 0) nextId = this.items.length - 1;
+      this.$store.commit("SET_ITEM_MARKER", {
+        item: item,
+        marker: this.items[nextId]
+      });
     },
-    toggleTriforce (level) {
-      this.toggle(this.levels[level].triforce)
+    toggleTriforce(level) {
+      this.toggle(this.levels[level].triforce);
     },
-    toggleHeart (level) {
-      this.toggle(this.levels[level].heart)
+    toggleHeart(level) {
+      this.toggle(this.levels[level].heart);
     },
-    cycleDungeonItem (level, index) {
-      let l = this.levels[level]
-      let item = l.items[index] || ''
-      let next = this.items.indexOf(item) + 1
-      if (next >= this.items.length) next = 0
-      if (next < 0) next = this.items.length - 1
-      this.$store.commit('SET_ITEM_BOX', { levelIndex: level, itemIndex: index, item: this.items[next] })
+    cycleDungeonItem(level, index) {
+      let l = this.levels[level];
+      let item = l.items[index] || "";
+      let next = this.items.indexOf(item) + 1;
+      if (next >= this.items.length) next = 0;
+      if (next < 0) next = this.items.length - 1;
+      this.$store.commit("SET_ITEM_BOX", {
+        levelIndex: level,
+        itemIndex: index,
+        item: this.items[next]
+      });
       //l.items2[index] = this.items[next]
     }
   }
-}
+};
 </script>
 
 <style lang="sass" scoped="true">
@@ -105,7 +119,7 @@ export default {
         width: 0
   .discovered
     .triangle
-      background-color: #fd6e6e
+      background-color: #7fe57f
   .triangle
     clip-path: polygon(50% 0, 0 100%, 100% 100%)
     background-color: #dcccb6
@@ -145,6 +159,17 @@ export default {
       content: "\F08A"
       font-family: FontAwesome
       position: absolute
+  .items-box
+    margin-top: 5px
+    margin-left: 2px
+    min-height: $item-size
+    border: 2px solid #dcccb6
+    background-color: #1f202c
+    border-radius: 4px
+    box-shadow: 1px 1px black, -1px -1px black
+    flex: 1
+    display: flex
+    align-items: center
   .item-box
     margin-top: 2px
     border: 2px solid #dcccb6
@@ -165,10 +190,17 @@ export default {
     font-size: 1.5em
     margin: 0 5px
     text-shadow: 2px 1px black
+  .item-icon
+    height: $item-size/1.5
+    width: $item-size/1.5
+    &.discovered
+      filter: grayscale(100%)
+      opacity: .4
   .item
     height: 100%
     width: 100%
-    background-size: cover
+    background-size: contain
+    background-repeat: no-repeat
     &.boomerang
       background-image: url('../../../static/items/loz-boomerang.png')
     &.bow

@@ -7,21 +7,21 @@
           | {{n}}
         .heart(@click="toggleHeart(n)" :class="{on:levels[n].heart.collected}")
       .item-box(v-for="(item, i) in d.items")
-        .item(:class="levels[n].items[i].id" @click="cycleItem(levels[n].items[i])" @click.right.prevent="cycleItem(levels[n].items[i],-1)")
+        .item(:class="levels[n].items[i].id" @click="cycleItem(levels[n].items[i])" @click.right.prevent="cycleItem(levels[n].items[i],false)")
     .overworld-items
       .overworld-item
         .item-box
-          .item(:class="oi.armos.id" @click="cycleItem(oi.armos)" @click.right.prevent="cycleItem(oi.armos,-1)")
+          .item(:class="oi.armos.id" @click="cycleItem(oi.armos)" @click.right.prevent="cycleItem(oi.armos,false)")
         .item-label A
       .overworld-item
         .item-box
-          .item(:class="oi.whiteSword.id" @click="cycleItem(oi.whiteSword)" @click.right.prevent="cycleItem(oi.whiteSword,-1)")
+          .item(:class="oi.whiteSword.id" @click="cycleItem(oi.whiteSword)" @click.right.prevent="cycleItem(oi.whiteSword,false)")
         .item-label WS
       .overworld-item
         .item-box
-          .item(:class="oi.coast.id" @click="cycleItem(oi.coast)" @click.right.prevent="cycleItem(oi.coast,-1)")
+          .item(:class="oi.coast.id" @click="cycleItem(oi.coast)" @click.right.prevent="cycleItem(oi.coast,false)")
         .item-label C
-  .flex 
+  .flex
     .items-box
       .flex.column.align-center(v-for="item in items" v-if="item")
         .item-icon(:class="{discovered: discoveredItems.includes(item)}")
@@ -50,7 +50,8 @@ export default {
       "isBindingPressed",
       "discoveredDungeons",
       "discoveredItems",
-      "unDiscoveredItems"
+      "unDiscoveredItems",
+      "stateOfItems"
     ])
   },
   data() {
@@ -61,11 +62,15 @@ export default {
     toggle(item) {
       this.$store.commit("TOGGLE_COLLECTED", item);
     },
-    cycleItem(item, amount) {
+    cycleItem(item, increment) {
+      let amount = increment === false ? -1 : 1;
       let currentId = Math.max(this.items.indexOf(item.id), 0);
-      let nextId = currentId + (amount || 1);
-      if (nextId >= this.items.length) nextId = 0;
-      if (nextId < 0) nextId = this.items.length - 1;
+      let nextId = currentId;
+      do {
+        nextId += amount;
+        if (nextId >= this.items.length) nextId = 0;
+        if (nextId < 0) nextId = this.items.length - 1;
+      } while (this.stateOfItems[nextId].found !== false);
       this.$store.commit("SET_ITEM_MARKER", {
         item: item,
         marker: this.items[nextId]

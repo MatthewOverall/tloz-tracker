@@ -148,6 +148,13 @@ const getters = {
   },
   unDiscoveredItems(state,getters){
     return state.items.filter(x => !getters.discoveredItems.includes(x))
+  },
+  stateOfItems(state,getters){
+    let discovered = getters.discoveredItems.filter(x => {return x !== ""});
+    return state.items.map(x => {
+      let found = x !== "" ? discovered.includes(x) : false;
+      return {"name": x, "found": found};
+    });
   }
 
 }

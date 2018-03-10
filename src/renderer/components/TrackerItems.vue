@@ -81,19 +81,6 @@ export default {
     },
     toggleHeart(level) {
       this.toggle(this.levels[level].heart);
-    },
-    cycleDungeonItem(level, index) {
-      let l = this.levels[level];
-      let item = l.items[index] || "";
-      let next = this.items.indexOf(item) + 1;
-      if (next >= this.items.length) next = 0;
-      if (next < 0) next = this.items.length - 1;
-      this.$store.commit("SET_ITEM_BOX", {
-        levelIndex: level,
-        itemIndex: index,
-        item: this.items[next]
-      });
-      //l.items2[index] = this.items[next]
     }
   }
 };
@@ -237,4 +224,3 @@ export default {
     &.heart-container
       background-image: url('../../../static/items/loz-heart-container.png')
 </style>
-

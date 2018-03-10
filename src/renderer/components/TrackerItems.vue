@@ -21,9 +21,8 @@
         .item-box
           .item(:class="oi.coast.id" @click="cycleItem(oi.coast)" @click.right.prevent="cycleItem(oi.coast,false)")
         .item-label C
-  .flex
-    .items-box
-      .flex.column.align-center(v-for="item in items" v-if="item")
+  .flex.items-box
+      .flex.item-wrapper(v-for="item in items" v-if="item", :class="item")
         .item-icon(:class="{discovered: discoveredItems.includes(item)}")
           .item(:class="item")
 </template>
@@ -151,6 +150,12 @@ export default {
       content: "\F08A"
       font-family: FontAwesome
       position: absolute
+  .item-wrapper.bow,
+  .item-wrapper.stepladder,
+  .item-wrapper.raft,
+  .item-wrapper.recorder,
+  .item-wrapper.power-bracelet
+    background-color: #312222
   .items-box
     margin-top: 5px
     margin-left: 2px
@@ -161,7 +166,11 @@ export default {
     box-shadow: 1px 1px black, -1px -1px black
     flex: 1
     display: flex
-    align-items: center
+    align-items: stretch
+    .item-icon
+      align-content: center;
+      margin-top: auto;
+      margin-bottom: auto;
   .item-box
     margin-top: 2px
     border: 2px solid #dcccb6

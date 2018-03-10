@@ -109,7 +109,37 @@ export default {
     gameloop () {
       this.handleSelectorMovement()
       this.handleMarkerInput()
+      this.handleDungeonSelectInput()
       this.handleRouteInput()
+    },
+    handleDungeonSelectInput () {
+      if (this.isBindingDown('global', 'level-1')) {
+        this.selectLevel(1)
+      }
+      if (this.isBindingDown('global', 'level-2')) {
+        this.selectLevel(2)
+      }
+      if (this.isBindingDown('global', 'level-3')) {
+        this.selectLevel(3)
+      }
+      if (this.isBindingDown('global', 'level-4')) {
+        this.selectLevel(4)
+      }
+      if (this.isBindingDown('global', 'level-5')) {
+        this.selectLevel(5)
+      }
+      if (this.isBindingDown('global', 'level-6')) {
+        this.selectLevel(6)
+      }
+      if (this.isBindingDown('global', 'level-7')) {
+        this.selectLevel(7)
+      }
+      if (this.isBindingDown('global', 'level-8')) {
+        this.selectLevel(8)
+      }
+      if (this.isBindingDown('global', 'level-9')) {
+        this.selectLevel(9)
+      }
     },
     handleMarkerInput () {
       let { r, c } = this.selected
@@ -277,4 +307,3 @@ $borderColor: grey
   display: flex
   flex-wrap: wrap
 </style>
-

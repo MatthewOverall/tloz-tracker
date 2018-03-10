@@ -1,48 +1,47 @@
 {
-  "selector-up": [
-    "ArrowUp"
-  ],
-  "selector-down": [
-    "ArrowDown"
-  ],
-  "selector-left": [
-    "ArrowLeft"
-  ],
-  "selector-right": [
-    "ArrowRight"
-  ],
-  "cycle-level": [],
-  "cycle-shop": [],
-  "cycle-misc": [],
-  "cycle-warp": [],
-  "level-1": ["Digit1"],
-  "level-2": ["Digit2"],
-  "level-3": ["Digit3"],
-  "level-4": ["Digit4"],
-  "level-5": ["Digit5"],
-  "level-6": ["Digit6"],
-  "level-7": ["Digit7"],
-  "level-8": ["Digit8"],
-  "level-9": ["Digit9"],
-  "shop-arrow": ["KeyA"],
-  "shop-bomb": ["KeyB"],
-  "shop-key": ["KeyK"],
-  "shop-food": ["KeyF"],
-  "shop-candle": ["KeyC"],
-  "shop-ring": ["KeyZ"],
-  "misc-potion": ["KeyP"],
-  "misc-gamble": ["KeyG"],
-  "misc-hints": ["KeyH"],
-  "misc-sword": ["KeyS"],
-  "warp-1": ["KeyQ"],
-  "warp-2": ["KeyW"],
-  "warp-3": ["KeyE"],
-  "warp-4": ["KeyR"],
-  "clear-marker": ["KeyX"],
-  "cycle-wall-up": [],
-  "cycle-wall-down": [],
-  "cycle-wall-left": [],
-  "cycle-wall-right": [],
-  "cycle-room-up": [],
-  "cycle-room-down": []
+  "version":1,
+  "global": {
+    "selector-up": ["ArrowUp"],
+    "selector-down": ["ArrowDown"],
+    "selector-left": ["ArrowLeft"],
+    "selector-right": ["ArrowRight"],
+    "level-1": ["Digit1"],
+    "level-2": ["Digit2"],
+    "level-3": ["Digit3"],
+    "level-4": ["Digit4"],
+    "level-5": ["Digit5"],
+    "level-6": ["Digit6"],
+    "level-7": ["Digit7"],
+    "level-8": ["Digit8"],
+    "level-9": ["Digit9"]
+  },
+  "overworld": {
+    "cycle-level": [],
+    "cycle-shop": [],
+    "cycle-misc": [],
+    "cycle-warp": [],
+    "shop-arrow": ["KeyA"],
+    "shop-bomb": ["KeyB"],
+    "shop-key": ["KeyK"],
+    "shop-food": ["KeyF"],
+    "shop-candle": ["KeyC"],
+    "shop-ring": ["KeyZ"],
+    "misc-potion": ["KeyP"],
+    "misc-gamble": ["KeyG"],
+    "misc-hints": ["KeyH"],
+    "misc-sword": ["KeyS"],
+    "warp-1": ["KeyQ"],
+    "warp-2": ["KeyW"],
+    "warp-3": ["KeyE"],
+    "warp-4": ["KeyR"],
+    "clear-marker": ["KeyX"]
+  },
+  "dungeon": {
+    "cycle-wall-up":[],
+    "cycle-wall-down":[],
+    "cycle-wall-left":[],
+    "cycle-wall-right":[],
+    "cycle-room-up":[],
+    "cycle-room-down":[]
+  }
 }

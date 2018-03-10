@@ -1,6 +1,7 @@
 {
-  "version":1,
+  "version": 1,
   "global": {
+    "dungeon-map-toggle": [],
     "selector-up": ["ArrowUp"],
     "selector-down": ["ArrowDown"],
     "selector-left": ["ArrowLeft"],

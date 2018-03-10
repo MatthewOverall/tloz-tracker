@@ -117,6 +117,7 @@ function mapV0ToV1(storedInput) {
 
 function getGlobalInputs() {
   return [
+    "dungeon-map-toggle",
     "selector-up",
     "selector-down",
     "selector-left",

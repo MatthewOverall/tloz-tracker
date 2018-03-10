@@ -40,6 +40,7 @@ import { mapGetters } from 'vuex'
 import { createWriteStream } from 'fs';
 import TileMarker from './TileMarker'
 import TrackerItems from './TrackerItems'
+import router from '../router'
 //import GamepadViewer from '../../Game/GamepadViewer'
 
 
@@ -115,6 +116,7 @@ export default {
     gameloop () {
       this.handleSelectorMovement()
       this.handleMarkerInput()
+      this.handleRouteInput()
     },
     handleSelectorMovement () {
       if (this.isBindingDown('global', 'selector-up')) {
@@ -152,6 +154,11 @@ export default {
             this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: m })
           }
         })
+      }
+    },
+    handleRouteInput () {
+      if (this.isBindingDown('global', 'dungeon-map-toggle')) {
+        router.push('/dungeon')
       }
     },
     moveSelector (amount) {

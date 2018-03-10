@@ -36,6 +36,7 @@ div
 import { mapGetters } from 'vuex'
 import { mapState } from 'vuex'
 import TrackerItems from './TrackerItems'
+import router from '../router'
 
 let selected = { r: 14, c: 12 }
 export default {
@@ -108,6 +109,7 @@ export default {
     gameloop () {
       this.handleSelectorMovement()
       this.handleMarkerInput()
+      this.handleRouteInput()
     },
     handleMarkerInput () {
       let { r, c } = this.selected
@@ -168,6 +170,11 @@ export default {
       }
       if (this.isBindingDown('global', 'selector-right')) {
         this.selected.c = Math.min(14, this.selected.c + 2)
+      }
+    },
+    handleRouteInput () {
+      if (this.isBindingDown('global', 'dungeon-map-toggle')) {
+        router.push('/')
       }
     },
     selectLevel (level) {

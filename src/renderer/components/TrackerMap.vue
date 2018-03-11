@@ -28,7 +28,7 @@
     .spacer
     .flex.column
       .btn.btn-sm(@click="showArea = !showArea" :class="{active:showArea}") AREA
-      router-link.btn.btn-sm.mt-5(to="input") CONFIG
+      router-link.btn.btn-sm.mt-5(to="config") CONFIG
       router-link.btn.btn-sm.mt-5(to="dungeon") DUNGEONS
       //router-link.btn.btn-sm.mt-5(to="gamepad") Gamepad
       //.btn.btn-sm.mt-5 GAMEPAD

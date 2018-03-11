@@ -87,6 +87,7 @@ export default {
 </script>
 
 <style lang="sass" scoped="true">
+  $item-icon-size: 28px;
   $item-size: 36px
   $heart-size: 36px
   $triangle-font-size: 1.8em
@@ -183,11 +184,11 @@ export default {
     margin: 0 5px
     text-shadow: 2px 1px black
   .item-icon
-    height: $item-size/1.5
-    width: $item-size/1.5
+    height: $item-icon-size
+    width: $item-icon-size
     &.discovered
       filter: grayscale(100%)
-      opacity: .4
+      opacity: .3
   .item
     height: 100%
     width: 100%

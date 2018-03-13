@@ -124,6 +124,30 @@
         "group": "room",
         "text": "*"
       },
+      "stair-1": {
+        "group": "stair",
+        "text": "A"
+      },
+      "stair-2": {
+        "group": "stair",
+        "text": "B"
+      },
+      "stair-3": {
+        "group": "stair",
+        "text": "C"
+      },
+      "stair-4": {
+        "group": "stair",
+        "text": "D"
+      },
+      "stair-5": {
+        "group": "stair",
+        "text": "E"
+      },
+      "stair-6": {
+        "group": "stair",
+        "text": "A"
+      },
       "boss": {
         "group": "room",
         "text": "B"
@@ -131,30 +155,6 @@
       "triforce": {
         "group": "room",
         "text": "T"
-      },
-      "stair-1": {
-        "group": "stair",
-        "text": "F"
-      },
-      "stair-2": {
-        "group": "stair",
-        "text": "E"
-      },
-      "stair-3": {
-        "group": "stair",
-        "text": "D"
-      },
-      "stair-4": {
-        "group": "stair",
-        "text": "C"
-      },
-      "stair-5": {
-        "group": "stair",
-        "text": "B"
-      },
-      "stair-6": {
-        "group": "stair",
-        "text": "A"
       }
     },
     "walls": {

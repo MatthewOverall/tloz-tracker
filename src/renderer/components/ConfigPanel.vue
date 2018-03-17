@@ -1,22 +1,25 @@
 <template lang="pug">
 .config-screen
   .input-mapper
-    h2 Input Mapper
+    h2 Configuration
     router-link.esc.flex.column.align-center(to="/")
       .fa.fa-times-circle-o.fa-lg
       div ESC
   tabs
-    tab(name="Global")
+    tab(name="Behaviors")
+      behaviors
+    tab(name="Global Inputs")
       global-input
-    tab(name="Overworld")
+    tab(name="Overworld Inputs")
       overworld-input
-    tab(name="Dungeon")
+    tab(name="Dungeon Inputs")
       dungeon-input
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
+import Behaviors from './config/Behaviors'
 import GlobalInput from './config/GlobalInput'
 import OverworldInput from './config/OverworldInput'
 import DungeonInput from './config/DungeonInput'
@@ -24,6 +27,7 @@ import DungeonInput from './config/DungeonInput'
 export default {
   props: ['tileId'],
   components: {
+    Behaviors,
     GlobalInput,
     OverworldInput,
     DungeonInput

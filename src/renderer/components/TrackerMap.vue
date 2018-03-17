@@ -3,13 +3,13 @@
   .map(v-bind:class="{'show-area':showArea}")
     .map-row(v-for="row in rows")
       .map-cell(
-          v-bind:id="row+col" 
-          v-for="col in cols" 
+          v-bind:id="row+col"
+          v-for="col in cols"
           v-bind:class="{selected:selectedCell == row+col}"
-          v-on:mouseenter = "selectedCell = row+col"
-          v-on:wheel = "handleWheel(tileMarkers[row+col], $event)"
-          @click="handleLeftClick(tileMarkers[row+col], $event)"
-          @click.right="handleRightClick(tileMarkers[row+col], $event)"
+          v-on:mouseenter = "handleMouseEnter(row+col)"
+          v-on:wheel = "handleWheel(row+col, $event)"
+          @click="handleLeftClick(row+col, $event)"
+          @click.right="handleRightClick(row+col, $event)"
         )
         img(v-bind:src="`./static/map/${row+col}.png`")
         .cell-cover(v-bind:class="tiles[row+col].area")
@@ -51,7 +51,8 @@ export default {
     ...mapState({
       tileMarkers: state => state.Main.tracker.overworld,
       markers: state => state.Main.markers.overworld,
-      inputmap: state => state.Input.inputmap
+      inputmap: state => state.Input.inputmap,
+      config: state => state.ConfigBehavior.config.values
     }),
     ...mapGetters([
       'getMarkersByGroup',
@@ -80,17 +81,25 @@ export default {
       if (nextIndex < 0) nextIndex = keys.length - 1
       this.$store.commit("SET_TILE_MARKER", { tile, marker: keys[nextIndex] })
     },
-    handleLeftClick (tile, e) {
-      e.preventDefault()
-      this.cycleMarker(tile, 1)
+    handleMouseEnter(cell) {
+      if (this.config.overworldTrackMouse) {
+        this.selectedCell = cell
+      }
     },
-    handleRightClick(tile, e){
+    handleLeftClick (cell, e) {
       e.preventDefault()
-      this.cycleMarker(tile, -1)
+      this.selectedCell = cell
+      this.cycleMarker(this.tileMarkers[cell], 1)
     },
-    handleWheel (tile, e) {
+    handleRightClick(cell, e){
       e.preventDefault()
-      this.cycleMarker(tile, -Math.sign(e.deltaY))
+      this.selectedCell = cell
+      this.cycleMarker(this.tileMarkers[cell], -1)
+    },
+    handleWheel (cell, e) {
+      e.preventDefault()
+      this.selectedCell = cell
+      this.cycleMarker(this.tileMarkers[cell], -Math.sign(e.deltaY))
     },
     cycleGroup (group) {
       let markers = Object.keys(this.getMarkersByGroup(group))

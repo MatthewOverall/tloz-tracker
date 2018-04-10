@@ -20,21 +20,21 @@ const state = {
   levelIds: '123456789',
   items: [
     '',
+    'bow',
+    'stepladder',
+    'recorder',
+    'power-bracelet',
+    'raft',
+    'silvers',
+    'white-sword',
+    'wand',
     'book',
     'boomerang',
-    'bow',
-    'power-bracelet',
-    'heart-container',
-    'stepladder',
     'blue-boomerang',
+    'heart-container',
     'magic-key',
-    'raft',
-    'recorder',
     'red-candle',
     'red-ring',
-    'silvers',
-    'wand',
-    'white-sword',
   ],
   wallMarkers: markers.underworld.walls,
   roomMarkers: markers.underworld.rooms,
@@ -54,8 +54,8 @@ const mutations = {
     tile.marker = marker
     saveTracker()
   },
-  SET_ITEM_MARKER (state, { item, markerId }) {
-    item.id = markerId
+  SET_ITEM_MARKER (state, { item, marker }) {
+    item.id = marker
     saveTracker()
   },
   TOGGLE_COLLECTED (state, item) {
@@ -138,7 +138,25 @@ const getters = {
   },
   discoveredDungeons(state, getters){
     return getters.activeMarkers.filter(x => x.startsWith('level')).map(x => x.substring(6))
+  },
+  discoveredItems(state){
+    return[
+      state.tracker.overworldItems.armos.id,
+      state.tracker.overworldItems.coast.id,
+      state.tracker.overworldItems.whiteSword.id
+    ].concat(...Object.values(state.tracker.levels).map(x => x.items.map(a => a.id)))
+  },
+  unDiscoveredItems(state,getters){
+    return state.items.filter(x => !getters.discoveredItems.includes(x))
+  },
+  stateOfItems(state,getters){
+    let discovered = getters.discoveredItems.filter(x => {return x !== ""});
+    return state.items.map(x => {
+      let found = x !== "" ? discovered.includes(x) : false;
+      return {"name": x, "found": found};
+    });
   }
+
 }
 
 

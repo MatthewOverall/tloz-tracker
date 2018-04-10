@@ -30,7 +30,28 @@ export default {
 }
 
 function getStoredInput() {
-  let storedInput = loadStoredInputData()
+  let storedInput
+  let defaultInput = require('../../../../static/inputmap.json');
+
+  //Get Version 1
+  storedInput = localStorage.getItem('inputmap_v1')
+  storedInput = storedInput ? JSON.parse(storedInput) : null
+  if (storedInput === null) {
+    //Get Version 0
+    storedInput = localStorage.getItem('inputmap')
+    storedInput = storedInput ? JSON.parse(storedInput) : null
+  }
+  if (storedInput !== null) {
+    return mergeDeep(
+      updateStoredInput(defaultInput),
+      updateStoredInput(storedInput)
+    )
+  } else {
+    return updateStoredInput(defaultInput)
+  }
+}
+
+function updateStoredInput(storedInput) {
   let storedInputVersion = storedInput.version || 0
   let storedInputMaps = [
     mapV0ToV1
@@ -45,24 +66,29 @@ function getStoredInput() {
   return storedInput
 }
 
-function loadStoredInputData() {
-  let storedInput
+/* Utility functions for merging objects */
+function mergeDeep(target, ...sources) {
+  if (!sources.length) return target;
+  const source = sources.shift();
 
-  //Get Version 1
-  storedInput = localStorage.getItem('inputmap_v1')
-  storedInput = storedInput ? JSON.parse(storedInput) : null
-  if (storedInput === null) {
-    //Get Version 0
-    storedInput = localStorage.getItem('inputmap')
-    storedInput = storedInput ? JSON.parse(storedInput) : null
-  }
-  if (storedInput === null) {
-    //Get Default Data
-    storedInput = require('../../../../static/inputmap.json')
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
   }
 
-  return Object.assign(storedInput)
+  return mergeDeep(target, ...sources);
 }
+
+function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+/* End Utility Functions */
 
 function mapV0ToV1(storedInput) {
   let globalInputs = getGlobalInputs();
@@ -91,6 +117,7 @@ function mapV0ToV1(storedInput) {
 
 function getGlobalInputs() {
   return [
+    "dungeon-map-toggle",
     "selector-up",
     "selector-down",
     "selector-left",

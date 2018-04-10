@@ -7,8 +7,9 @@
           v-for="col in cols" 
           v-bind:class="{selected:selectedCell == row+col}"
           v-on:mouseenter = "selectedCell = row+col"
-          @click="cycleMarker(tileMarkers[row+col], 1, $event)"
-          @click.right="cycleMarker(tileMarkers[row+col],-1, $event)"
+          v-on:wheel = "handleWheel(tileMarkers[row+col], $event)"
+          @click="handleLeftClick(tileMarkers[row+col], $event)"
+          @click.right="handleRightClick(tileMarkers[row+col], $event)"
         )
         img(v-bind:src="`./static/map/${row+col}.png`")
         .cell-cover(v-bind:class="tiles[row+col].area")
@@ -27,7 +28,7 @@
     .spacer
     .flex.column
       .btn.btn-sm(@click="showArea = !showArea" :class="{active:showArea}") AREA
-      router-link.btn.btn-sm.mt-5(to="input") CONFIG
+      router-link.btn.btn-sm.mt-5(to="config") CONFIG
       router-link.btn.btn-sm.mt-5(to="dungeon") DUNGEONS
       //router-link.btn.btn-sm.mt-5(to="gamepad") Gamepad
       //.btn.btn-sm.mt-5 GAMEPAD
@@ -39,6 +40,7 @@ import { mapGetters } from 'vuex'
 import { createWriteStream } from 'fs';
 import TileMarker from './TileMarker'
 import TrackerItems from './TrackerItems'
+import router from '../router'
 //import GamepadViewer from '../../Game/GamepadViewer'
 
 
@@ -71,13 +73,24 @@ export default {
   mounted () {
   },
   methods: {
-    cycleMarker (tile, amount, e) {
-      e.preventDefault()
+    cycleMarker (tile, amount) {
       let keys = Object.keys(this.markers)
       let nextIndex = keys.indexOf(tile.marker) + (amount || 1)
       if (nextIndex >= keys.length) nextIndex = 0
       if (nextIndex < 0) nextIndex = keys.length - 1
       this.$store.commit("SET_TILE_MARKER", { tile, marker: keys[nextIndex] })
+    },
+    handleLeftClick (tile, e) {
+      e.preventDefault()
+      this.cycleMarker(tile, 1)
+    },
+    handleRightClick(tile, e){
+      e.preventDefault()
+      this.cycleMarker(tile, -1)
+    },
+    handleWheel (tile, e) {
+      e.preventDefault()
+      this.cycleMarker(tile, -Math.sign(e.deltaY))
     },
     cycleGroup (group) {
       let markers = Object.keys(this.getMarkersByGroup(group))
@@ -99,9 +112,11 @@ export default {
     mixQuest () {
       this.$store.commit('MIX_QUEST')
     },
+
     gameloop () {
       this.handleSelectorMovement()
       this.handleMarkerInput()
+      this.handleRouteInput()
     },
     handleSelectorMovement () {
       if (this.isBindingDown('global', 'selector-up')) {
@@ -139,6 +154,11 @@ export default {
             this.$store.commit("SET_TILE_MARKER", { tile: this.selectedTile, marker: m })
           }
         })
+      }
+    },
+    handleRouteInput () {
+      if (this.isBindingDown('global', 'dungeon-map-toggle')) {
+        router.push('/dungeon')
       }
     },
     moveSelector (amount) {

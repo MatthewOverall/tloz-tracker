@@ -10,9 +10,9 @@ export default new Router({
       name: 'TrackerMap',
       component: require('@/components/TrackerMap').default
     }, {
-      path: '/input',
-      name: 'InputMap',
-      component: require('@/components/InputMap').default
+      path: '/config',
+      name: 'ConfigPanel',
+      component: require('@/components/ConfigPanel').default
     },
      {
       path: '/dungeon',

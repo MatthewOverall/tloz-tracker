@@ -31,10 +31,10 @@ const state = {
     'book',
     'boomerang',
     'blue-boomerang',
-    'heart-container',
     'magic-key',
     'red-candle',
     'red-ring',
+    'heart-container',
   ],
   wallMarkers: markers.underworld.walls,
   roomMarkers: markers.underworld.rooms,
@@ -43,7 +43,12 @@ const state = {
   tiles1q,
   tiles2q,
   tilesMixed,
-  tracker: defaultState
+  tracker: defaultState,
+  dungeonOverlay: {
+      follow: false,
+      dungeon: 0,
+      quest2: false
+  }
 }
 
 const mutations = {
@@ -77,7 +82,11 @@ const mutations = {
   },
   MIX_QUEST (state) {
     state.tracker.mixQuest = !state.tracker.mixQuest
+  },
+  SET_DUNGEON_OVERLAY(state, data){
+    state.dungeonOverlay = data
   }
+
 }
 
 const actions = {
@@ -144,7 +153,7 @@ const getters = {
       state.tracker.overworldItems.armos.id,
       state.tracker.overworldItems.coast.id,
       state.tracker.overworldItems.whiteSword.id
-    ].concat(...Object.values(state.tracker.levels).map(x => x.items.map(a => a.id)))
+    ].concat(...Object.values(state.tracker.levels).map(x => x.items.map(a => a.id))).filter(x => x != 'heart-container')
   },
   unDiscoveredItems(state,getters){
     return state.items.filter(x => !getters.discoveredItems.includes(x))

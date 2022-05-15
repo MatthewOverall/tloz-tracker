@@ -2,14 +2,15 @@
   "quest1": {
     "1": {
       "items": [
+        "heart-container1",
         "bow",
         "boomerang"
       ],
       "map": [
         "........",
         "........",
-        "..XX....",
-        "...X.XX.",
+        "..IX....",
+        "...X.HT.",
         ".XXXXX..",
         "..XXX...",
         "...X....",
@@ -18,13 +19,14 @@
     },
     "2": {
       "items": [
+        "heart-container2",
         "blue-boomerang"
       ],
       "map": [
-        "...XX...",
+        "...TH...",
         "....XX..",
         "....XX..",
-        "....XX..",
+        "....XI..",
         "....XX..",
         "....XX..",
         "..XXXX..",
@@ -33,28 +35,30 @@
     },
     "3": {
       "items": [
+        "heart-container3",
         "raft"
       ],
       "map": [
         "........",
         "........",
         "..XX....",
-        "...X.X..",
+        "...X.T..",
+        ".XXXXH..",
         ".XXXXX..",
-        ".XXXXX..",
-        ".X.X....",
+        ".I.X....",
         "...XX..."
       ]
     },
     "4": {
       "items": [
+        "heart-container4",
         "stepladder"
       ],
       "map": [
-        "..XXXX..",
-        "..XXXX..",
+        "..XXXT..",
+        "..XXXH..",
         "..XX....",
-        "..XXX...",
+        "..XXI...",
         "..X.....",
         "..XX....",
         "...XX...",
@@ -63,12 +67,13 @@
     },
     "5": {
       "items": [
+        "heart-container5",
         "recorder"
       ],
       "map": [
-        "...XX...",
-        "..XXXX..",
-        "..XXXX..",
+        "...IX...",
+        "..TXXX..",
+        "..HXXX..",
         "..X..X..",
         "....XX..",
         "...XXX..",
@@ -78,11 +83,12 @@
     },
     "6": {
       "items": [
+        "heart-container6",
         "wand"
       ],
       "map": [
-        "..XXXX..",
-        ".XXXXXX.",
+        "..IXXT..",
+        ".XXXXHX.",
         ".XX..XX.",
         ".XXX.X..",
         ".X......",
@@ -93,12 +99,13 @@
     },
     "7": {
       "items": [
+        "heart-container7",
         "red-candle"
       ],
       "map": [
         ".XXXXXX.",
-        ".XXXXX..",
-        ".XXXX...",
+        ".XXIXX..",
+        ".XXHT...",
         ".XXX....",
         ".XX.....",
         ".XXXX...",
@@ -108,18 +115,19 @@
     },
     "8": {
       "items": [
+        "heart-container8",
         "book",
         "magic-key"
       ],
       "map": [
         "....X...",
-        "...XXX..",
-        "..XXX...",
-        ".XXXXX..",
+        "...XXI..",
+        "..TXX...",
+        ".XHXXX..",
         ".XXXX...",
         "..XXXX..",
         "....X...",
-        "..XXXX.."
+        "..IXXX.."
       ]
     },
     "9": {
@@ -128,11 +136,11 @@
         "red-ring"
       ],
       "map": [
-        ".XXXXXXX",
+        ".XXXXXXI",
+        "IXXXXXXX",
         "XXXXXXXX",
-        "XXXXXXXX",
-        "XXXXXXXX",
-        "XXXXXXXX",
+        "XXTXXXXX",
+        "XXHXXXXX",
         "XXXXXXXX",
         ".XXXXXX.",
         ".X.XX.X."

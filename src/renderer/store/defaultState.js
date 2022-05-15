@@ -45,7 +45,7 @@ function getDefaultState () {
     state.levels[level] = {
       triforce: { collected: false },
       heart: { collected: false },
-      items: [{ id: '' }, { id: '' }]
+      items: [{ id: '' }, { id: '' }, { id: '' }]
     }
 
     let map = dungeon_template.trim().split(/\r?\n/).map(x => x.split(''))

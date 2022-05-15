@@ -14,7 +14,7 @@ div
         .letter -
         .letter {{activeLevel}}
       .flex(v-for="(row, r) in activeMap")
-        .flex(v-for="(cell, c) in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker, {overlay:overlayDungeon && cell.type ==='room' && overlay.map[r/2][c/2] == 'X'}]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
+        .flex(v-for="(cell, c) in row" :class="[cell.type, {selected:selected.r === cell.r && selected.c === cell.c}, cell.marker, getOverlayClass(r,c), {overlay:overlayConfig.dungeon && cell.type ==='room' && overlay.map[r/2][c/2] == 'X'}]" @click="cycle(cell, 1)" @click.right.prevent="cycle(cell,-1)")
           div(v-if="cell.type==='room'" ) {{roomMarkers[cell.marker].text}}
     .flex.column.ml-10
       .flex.row
@@ -25,11 +25,12 @@ div
             tracker-items
       .flex.mt-10
         span Overlay Dungeon
-        .btn.btn-xs.ml-5(@click="overlayQuest2 = !overlayQuest2" :class="{active:overlayQuest2}") 2nd Quest
+        .btn.btn-xs.ml-5(@click="setOverlayFollow" :class="{active:overlayConfig.follow}") Follow Level
+        .btn.btn-xs.ml-5(@click="overlayConfig.quest2 = !overlayConfig.quest2" :class="{active:overlayConfig.quest2}") 2nd Quest
       .overlay-select.mt-10
         div Lvl
         .flex(v-for="level in levelIds")
-          .btn.btn-xs.mh-2(@click="setOverlay(level)" :class="{active:level == overlayDungeon}") {{level}}
+          .btn.btn-xs.mh-2(@click="setOverlay(level)" :class="{active:level == overlayConfig.dungeon}") {{level}}
 </template>
 
 <script>
@@ -38,6 +39,11 @@ import { mapState } from 'vuex'
 import TrackerItems from './TrackerItems'
 import router from '../router'
 
+let overlayConfig = {
+  follow: true,
+  dungeon: 1,
+  quest2: false
+}
 let selected = { r: 14, c: 12 }
 export default {
   components: { TrackerItems },
@@ -55,28 +61,38 @@ export default {
       dungeons: state => state.Main.dungeons,
       levelIds: state => state.Main.levelIds,
       activeLevel: state => state.Main.tracker.activeLevel,
-      maps: state => state.Main.tracker.maps
+      maps: state => state.Main.tracker.maps,
     }),
     overlay () {
-      if (!this.overlayDungeon) return []
-      let q = this.overlayQuest2 ? this.dungeons.quest2 : this.dungeons.quest1
-      return q[this.overlayDungeon]
+      if (!this.overlayConfig.dungeon) return []
+      if (this.overlayConfig.follow) this.overlayConfig.dungeon = parseInt(this.activeLevel)
+      let q = this.overlayConfig.quest2 ? this.dungeons.quest2 : this.dungeons.quest1
+      return q[this.overlayConfig.dungeon]
+    },
+    getOverlayClass: vm => (r,c) => {
+      if(!vm.overlay || !vm.overlay.map[r/2]) return ''
+      var value = vm.overlay.map[r/2][c/2]
+      return value ? 'overlay-'+ value : ''
     }
   },
   data () {
     return {
       selected,
-      overlayDungeon: 0,
-      overlayQuest2: false
+      overlayConfig
     }
   },
   methods: {
     setOverlay (level) {
-      if (this.overlayDungeon == level) {
-        this.overlayDungeon = 0
+      if (this.overlayConfig.dungeon == level) {
+        this.overlayConfig.dungeon = 0
       } else {
-        this.overlayDungeon = level
+        this.overlayConfig.dungeon = level
       }
+    },
+
+    setOverlayFollow () {
+      this.overlayConfig.follow = !this.overlayConfig.follow
+      this.overlayConfig.dungeon = parseInt(this.activeLevel)
     },
     cycleWall (wall, amount) {
       let keys = Object.keys(this.wallMarkers)
@@ -246,12 +262,12 @@ $borderColor: grey
 .wall-h
   height: $min
   width: $max
-  border: 1xpx solid $borderColor
+  //border: 1xpx solid $borderColor
 
 .wall-v
   height: $max
   width: $min
-  border: 1px solid $borderColor
+  //border: 1px solid $borderColor
 
 .room
   height: $max
@@ -264,8 +280,18 @@ $borderColor: grey
   background-color: white
   &.default
     background-color: transparent
-  &.overlay
+  &.overlay-X
     background-color: #033859
+  &.overlay-H
+    background-color: #8e5050
+  &.overlay-T
+    background-color: #a9ab57
+  &.overlay-I
+    background-color: #03591d
+  &.overlay-A
+    background-color: #033859
+    ::after
+      content: 'A'
   &.selected
     border: 2px solid magenta
   &.checked
@@ -286,8 +312,8 @@ $borderColor: grey
 .spacer
   height: $min
   width: $min
-  border: 1px solid $borderColor
-  background-color: $borderColor
+  //border: 1px solid $borderColor
+  //background-color: $borderColor
 
 .letter
   width: $max + $min

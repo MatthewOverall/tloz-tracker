@@ -5,7 +5,7 @@
       .triforce-heart(:class="'level-'+n")
         .triangle(@click="toggleTriforce(n)" :class="{on:levels[n].triforce.collected}")
           | {{n}}
-        .heart(@click="toggleHeart(n)" :class="{on:levels[n].heart.collected}")
+        //.heart(@click="toggleHeart(n)" :class="{on:levels[n].heart.collected}")
       .item-box(v-for="(item, i) in d.items")
         .item(:class="levels[n].items[i].id" @click="cycleItem(levels[n].items[i])" @click.right.prevent="cycleItem(levels[n].items[i],false)")
     .overworld-items
@@ -86,9 +86,9 @@ export default {
 </script>
 
 <style lang="sass" scoped="true">
-  $item-icon-size: 28px;
-  $item-size: 36px
-  $heart-size: 36px
+  $item-icon-size: 26px;
+  $item-size: 34px
+  $heart-size: 34px
   $triangle-font-size: 1.8em
   .spacer
     flex: 1
@@ -232,5 +232,7 @@ export default {
     &.power-bracelet
       background-image: url('../../../static/items/loz-power-bracelet.png')
     &.heart-container
+      background-image: url('../../../static/items/loz-heart-container.png')
+    &[class*="heart-container"]
       background-image: url('../../../static/items/loz-heart-container.png')
 </style>
